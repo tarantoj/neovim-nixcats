@@ -44,9 +44,9 @@
     #   flake = false;
     # };
 
-    # neovim-nightly-overlay = {
-    #   url = "github:nix-community/neovim-nightly-overlay";
-    # };
+    neovim-nightly-overlay = {
+      url = "github:nix-community/neovim-nightly-overlay";
+    };
 
   };
 
@@ -357,7 +357,7 @@
           # OR see :help nixCats.flake.outputs.settings for all of the settings available
           wrapRc = true;
           configDirName = "nixCats-nvim";
-          # neovim-unwrapped = inputs.neovim-nightly-overlay.packages.${pkgs.system}.neovim;
+          neovim-unwrapped = inputs.neovim-nightly-overlay.packages.${pkgs.system}.neovim;
         };
         # enable the categories you want from categoryDefinitions
         categories = {
