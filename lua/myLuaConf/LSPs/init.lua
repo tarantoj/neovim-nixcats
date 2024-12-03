@@ -20,37 +20,39 @@ if nixCats('neonixdev') then
         nixpkgs = {
           -- nixd requires some configuration in flake based configs.
           -- luckily, the nixCats plugin is here to pass whatever we need!
-          expr = [[import (builtins.getFlake "]] .. nixCats.extra("nixdExtras.nixpkgs") .. [[") { }   ]],
+          expr = [[import (builtins.getFlake "]] .. nixCats.extra('nixdExtras.nixpkgs') .. [[") { }   ]],
         },
         formatting = {
-          command = { "nixfmt" }
+          command = { 'alejandra' },
         },
         diagnostic = {
           suppress = {
-            "sema-escaping-with"
-          }
-        }
-      }
+            'sema-escaping-with',
+          },
+        },
+      },
     }
     -- If you integrated with your system flake,
     -- you should pass inputs.self as nixdExtras.flake-path
     -- that way it will ALWAYS work, regardless
     -- of where your config actually was.
     -- otherwise flake-path could be an absolute path to your system flake, or nil or false
-    if nixCats.extra("nixdExtras.flake-path") then
-      local flakePath = nixCats.extra("nixdExtras.flake-path")
-      if nixCats.extra("nixdExtras.systemCFGname") then
+    if nixCats.extra('nixdExtras.flake-path') then
+      local flakePath = nixCats.extra('nixdExtras.flake-path')
+      if nixCats.extra('nixdExtras.systemCFGname') then
         -- (builtins.getFlake "<path_to_system_flake>").nixosConfigurations."<name>".options
         servers.nixd.nixd.options.nixos = {
-          expr = [[(builtins.getFlake "]] .. flakePath ..  [[").nixosConfigurations."]] ..
-            nixCats.extra("nixdExtras.systemCFGname") .. [[".options]]
+          expr = [[(builtins.getFlake "]] .. flakePath .. [[").nixosConfigurations."]] .. nixCats.extra(
+            'nixdExtras.systemCFGname'
+          ) .. [[".options]],
         }
       end
-      if nixCats.extra("nixdExtras.homeCFGname") then
+      if nixCats.extra('nixdExtras.homeCFGname') then
         -- (builtins.getFlake "<path_to_system_flake>").homeConfigurations."<name>".options
-        servers.nixd.nixd.options["home-manager"] = {
-          expr = [[(builtins.getFlake "]] .. flakePath .. [[").homeConfigurations."]]
-            .. nixCats.extra("nixdExtras.homeCFGname") .. [[".options]]
+        servers.nixd.nixd.options['home-manager'] = {
+          expr = [[(builtins.getFlake "]] .. flakePath .. [[").homeConfigurations."]] .. nixCats.extra(
+            'nixdExtras.homeCFGname'
+          ) .. [[".options]],
         }
       end
     end
@@ -58,7 +60,6 @@ if nixCats('neonixdev') then
     servers.rnix = {}
     servers.nil_ls = {}
   end
-
 end
 
 if nixCats('go') then
@@ -84,9 +85,8 @@ end
 -- servers.tsserver = {},
 -- servers.html = { filetypes = { 'html', 'twig', 'hbs'} },
 
-
 if not require('nixCatsUtils').isNixCats and nixCats('lspDebugMode') then
-  vim.lsp.set_log_level("debug")
+  vim.lsp.set_log_level('debug')
 end
 -- If you were to comment out this autocommand
 -- and instead pass the on attach function directly to
@@ -97,23 +97,23 @@ vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('nixCats-lsp-attach', { clear = true }),
   callback = function(event)
     require('myLuaConf.LSPs.caps-on_attach').on_attach(vim.lsp.get_client_by_id(event.data.client_id), event.buf)
-  end
+  end,
 })
 
 require('lze').load {
   {
-    "nvim-lspconfig",
-    for_cat = "general.always",
-    event = "FileType",
+    'nvim-lspconfig',
+    for_cat = 'general.always',
+    event = 'FileType',
     load = (require('nixCatsUtils').isNixCats and vim.cmd.packadd) or function(name)
       vim.cmd.packadd(name)
-      vim.cmd.packadd("mason.nvim")
-      vim.cmd.packadd("mason-lspconfig.nvim")
+      vim.cmd.packadd('mason.nvim')
+      vim.cmd.packadd('mason-lspconfig.nvim')
     end,
     after = function(plugin)
       if require('nixCatsUtils').isNixCats then
         for server_name, cfg in pairs(servers) do
-          require('lspconfig')[server_name].setup({
+          require('lspconfig')[server_name].setup {
             capabilities = require('myLuaConf.LSPs.caps-on_attach').get_capabilities(server_name),
             -- this line is interchangeable with the above LspAttach autocommand
             -- on_attach = require('myLuaConf.LSPs.caps-on_attach').on_attach,
@@ -121,11 +121,11 @@ require('lze').load {
             filetypes = (cfg or {}).filetypes,
             cmd = (cfg or {}).cmd,
             root_pattern = (cfg or {}).root_pattern,
-          })
+          }
         end
       else
         require('mason').setup()
-        local mason_lspconfig = require 'mason-lspconfig'
+        local mason_lspconfig = require('mason-lspconfig')
         mason_lspconfig.setup {
           ensure_installed = vim.tbl_keys(servers),
         }
@@ -142,5 +142,17 @@ require('lze').load {
         }
       end
     end,
-  }
+  },
+  {
+    'roslyn',
+    for_cat = 'dotnet',
+    -- load = (require("nixCatsUtils").isNixCats and vim.cmd.packadd),
+    after = function(plugin)
+      require('roslyn').setup {
+        exe = 'Microsoft.CodeAnalysis.LanguageServer',
+        config = { capabilities = require('myLuaConf.LSPs.caps-on_attach').get_capabilities('roslyn') },
+      }
+    end,
+    ft = 'cs',
+  },
 }
