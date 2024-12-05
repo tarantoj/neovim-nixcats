@@ -16,125 +16,144 @@ if nixCats('general.extra') then
   -- after the other lze definitions in the next call using priority value?
   -- didnt seem necessary.
   vim.g.loaded_netrwPlugin = 1
-  require("oil").setup({
+  require('oil').setup {
     default_file_explorer = true,
     columns = {
-      "icon",
-      "permissions",
-      "size",
+      'icon',
+      'permissions',
+      'size',
       -- "mtime",
     },
     keymaps = {
-      ["g?"] = "actions.show_help",
-      ["<CR>"] = "actions.select",
-      ["<C-s>"] = "actions.select_vsplit",
-      ["<C-h>"] = "actions.select_split",
-      ["<C-t>"] = "actions.select_tab",
-      ["<C-p>"] = "actions.preview",
-      ["<C-c>"] = "actions.close",
-      ["<C-l>"] = "actions.refresh",
-      ["-"] = "actions.parent",
-      ["_"] = "actions.open_cwd",
-      ["`"] = "actions.cd",
-      ["~"] = "actions.tcd",
-      ["gs"] = "actions.change_sort",
-      ["gx"] = "actions.open_external",
-      ["g."] = "actions.toggle_hidden",
-      ["g\\"] = "actions.toggle_trash",
+      ['g?'] = 'actions.show_help',
+      ['<CR>'] = 'actions.select',
+      ['<C-s>'] = 'actions.select_vsplit',
+      ['<C-h>'] = 'actions.select_split',
+      ['<C-t>'] = 'actions.select_tab',
+      ['<C-p>'] = 'actions.preview',
+      ['<C-c>'] = 'actions.close',
+      ['<C-l>'] = 'actions.refresh',
+      ['-'] = 'actions.parent',
+      ['_'] = 'actions.open_cwd',
+      ['`'] = 'actions.cd',
+      ['~'] = 'actions.tcd',
+      ['gs'] = 'actions.change_sort',
+      ['gx'] = 'actions.open_external',
+      ['g.'] = 'actions.toggle_hidden',
+      ['g\\'] = 'actions.toggle_trash',
     },
-  })
-  vim.keymap.set("n", "-", "<cmd>Oil<CR>", { noremap = true, desc = 'Open Parent Directory' })
-  vim.keymap.set("n", "<leader>-", "<cmd>Oil .<CR>", { noremap = true, desc = 'Open nvim root directory' })
+  }
+  vim.keymap.set('n', '-', '<cmd>Oil<CR>', { noremap = true, desc = 'Open Parent Directory' })
+  vim.keymap.set('n', '<leader>-', '<cmd>Oil .<CR>', { noremap = true, desc = 'Open nvim root directory' })
 end
 
 require('lze').load {
-  { import = "myLuaConf.plugins.telescope", },
-  { import = "myLuaConf.plugins.treesitter", },
-  { import = "myLuaConf.plugins.completion", },
+  { import = 'myLuaConf.plugins.telescope' },
+  { import = 'myLuaConf.plugins.treesitter' },
+  { import = 'myLuaConf.plugins.completion' },
   {
-    "lazydev.nvim",
+    'lazydev.nvim',
     for_cat = 'neonixdev',
-    cmd = { "LazyDev" },
-    ft = "lua",
+    cmd = { 'LazyDev' },
+    ft = 'lua',
     after = function(plugin)
-      require('lazydev').setup({
+      require('lazydev').setup {
         library = {
-          { words = { "nixCats" }, path = (require('nixCats').nixCatsPath or "") .. '/lua' },
+          { words = { 'nixCats' }, path = (require('nixCats').nixCatsPath or '') .. '/lua' },
         },
-      })
+      }
     end,
   },
   {
-    "markdown-preview.nvim",
+    'markdown-preview.nvim',
     -- NOTE: for_cat is a custom handler that just sets enabled value for us,
     -- based on result of nixCats('cat.name') and allows us to set a different default if we wish
     -- it is defined in luaUtils template in lua/nixCatsUtils/lzUtils.lua
     -- you could replace this with enabled = nixCats('cat.name') == true
     -- if you didnt care to set a different default for when not using nix than the default you already set
     for_cat = 'general.markdown',
-    cmd = { "MarkdownPreview", "MarkdownPreviewStop", "MarkdownPreviewToggle", },
-    ft = "markdown",
+    cmd = { 'MarkdownPreview', 'MarkdownPreviewStop', 'MarkdownPreviewToggle' },
+    ft = 'markdown',
     keys = {
-      {"<leader>mp", "<cmd>MarkdownPreview <CR>", mode = {"n"}, noremap = true, desc = "markdown preview"},
-      {"<leader>ms", "<cmd>MarkdownPreviewStop <CR>", mode = {"n"}, noremap = true, desc = "markdown preview stop"},
-      {"<leader>mt", "<cmd>MarkdownPreviewToggle <CR>", mode = {"n"}, noremap = true, desc = "markdown preview toggle"},
+      { '<leader>mp', '<cmd>MarkdownPreview <CR>', mode = { 'n' }, noremap = true, desc = 'markdown preview' },
+      { '<leader>ms', '<cmd>MarkdownPreviewStop <CR>', mode = { 'n' }, noremap = true, desc = 'markdown preview stop' },
+      {
+        '<leader>mt',
+        '<cmd>MarkdownPreviewToggle <CR>',
+        mode = { 'n' },
+        noremap = true,
+        desc = 'markdown preview toggle',
+      },
     },
     before = function(plugin)
       vim.g.mkdp_auto_close = 0
     end,
   },
   {
-    "undotree",
+    'undotree',
     for_cat = 'general.extra',
-    cmd = { "UndotreeToggle", "UndotreeHide", "UndotreeShow", "UndotreeFocus", "UndotreePersistUndo", },
-    keys = { { "<leader>U", "<cmd>UndotreeToggle<CR>", mode = { "n" }, desc = "Undo Tree" }, },
+    cmd = { 'UndotreeToggle', 'UndotreeHide', 'UndotreeShow', 'UndotreeFocus', 'UndotreePersistUndo' },
+    keys = { { '<leader>U', '<cmd>UndotreeToggle<CR>', mode = { 'n' }, desc = 'Undo Tree' } },
     before = function(_)
       vim.g.undotree_WindowLayout = 1
       vim.g.undotree_SplitWidth = 40
     end,
   },
   {
-    "comment.nvim",
+    'comment.nvim',
     for_cat = 'general.extra',
-    event = "DeferredUIEnter",
+    event = 'DeferredUIEnter',
     after = function(plugin)
       require('Comment').setup()
     end,
   },
   {
-    "indent-blankline.nvim",
+    'indent-blankline.nvim',
     for_cat = 'general.extra',
-    event = "DeferredUIEnter",
+    event = 'DeferredUIEnter',
     after = function(plugin)
-      require("ibl").setup()
+      require('ibl').setup()
     end,
   },
   {
-    "nvim-surround",
+    'nvim-surround',
     for_cat = 'general.always',
-    event = "DeferredUIEnter",
+    event = 'DeferredUIEnter',
     -- keys = "",
     after = function(plugin)
       require('nvim-surround').setup()
     end,
   },
   {
-    "vim-startuptime",
-    for_cat = 'general.extra',
-    cmd = { "StartupTime" },
-    before = function(_)
-      vim.g.startuptime_event_width = 0
-      vim.g.startuptime_tries = 10
-      vim.g.startuptime_exe_path = require("nixCatsUtils").packageBinPath
+    'neogen',
+    for_cat = 'general.always',
+    event = 'DeferredUIEnter',
+    after = function(plugin)
+      require('neogen').setup {
+        snippet_engine = 'luasnip',
+        languages = {
+          cs = { template = { annotation_convention = 'xmldoc' } },
+        },
+      }
     end,
   },
   {
-    "fidget.nvim",
+    'vim-startuptime',
     for_cat = 'general.extra',
-    event = "DeferredUIEnter",
+    cmd = { 'StartupTime' },
+    before = function(_)
+      vim.g.startuptime_event_width = 0
+      vim.g.startuptime_tries = 10
+      vim.g.startuptime_exe_path = require('nixCatsUtils').packageBinPath
+    end,
+  },
+  {
+    'fidget.nvim',
+    for_cat = 'general.extra',
+    event = 'DeferredUIEnter',
     -- keys = "",
     after = function(plugin)
-      require('fidget').setup({})
+      require('fidget').setup {}
     end,
   },
   -- {
@@ -152,16 +171,15 @@ require('lze').load {
   --   end,
   -- },
   {
-    "lualine.nvim",
+    'lualine.nvim',
     for_cat = 'general.always',
     -- cmd = { "" },
-    event = "DeferredUIEnter",
+    event = 'DeferredUIEnter',
     -- ft = "",
     -- keys = "",
     -- colorscheme = "",
-    after = function (plugin)
-
-      require('lualine').setup({
+    after = function(plugin)
+      require('lualine').setup {
         options = {
           icons_enabled = false,
           theme = colorschemeName,
@@ -171,37 +189,41 @@ require('lze').load {
         sections = {
           lualine_c = {
             {
-              'filename', path = 1, status = true,
+              'filename',
+              path = 1,
+              status = true,
             },
           },
         },
         inactive_sections = {
           lualine_b = {
             {
-              'filename', path = 3, status = true,
+              'filename',
+              path = 3,
+              status = true,
             },
           },
-          lualine_x = {'filetype'},
+          lualine_x = { 'filetype' },
         },
         tabline = {
           lualine_a = { 'buffers' },
           -- if you use lualine-lsp-progress, I have mine here instead of fidget
           -- lualine_b = { 'lsp_progress', },
-          lualine_z = { 'tabs' }
+          lualine_z = { 'tabs' },
         },
-      })
+      }
     end,
   },
   {
-    "gitsigns.nvim",
+    'gitsigns.nvim',
     for_cat = 'general.always',
-    event = "DeferredUIEnter",
+    event = 'DeferredUIEnter',
     -- cmd = { "" },
     -- ft = "",
     -- keys = "",
     -- colorscheme = "",
-    after = function (plugin)
-      require('gitsigns').setup({
+    after = function(plugin)
+      require('gitsigns').setup {
         -- See `:help gitsigns.txt`
         signs = {
           add = { text = '+' },
@@ -243,10 +265,10 @@ require('lze').load {
           -- Actions
           -- visual mode
           map('v', '<leader>hs', function()
-            gs.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
+            gs.stage_hunk { vim.fn.line('.'), vim.fn.line('v') }
           end, { desc = 'stage git hunk' })
           map('v', '<leader>hr', function()
-            gs.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
+            gs.reset_hunk { vim.fn.line('.'), vim.fn.line('v') }
           end, { desc = 'reset git hunk' })
           -- normal mode
           map('n', '<leader>gs', gs.stage_hunk, { desc = 'git stage hunk' })
@@ -260,7 +282,7 @@ require('lze').load {
           end, { desc = 'git blame line' })
           map('n', '<leader>gd', gs.diffthis, { desc = 'git diff against index' })
           map('n', '<leader>gD', function()
-            gs.diffthis '~'
+            gs.diffthis('~')
           end, { desc = 'git diff against last commit' })
 
           -- Toggles
@@ -270,43 +292,62 @@ require('lze').load {
           -- Text object
           map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>', { desc = 'select git hunk' })
         end,
-      })
+      }
       vim.cmd([[hi GitSignsAdd guifg=#04de21]])
       vim.cmd([[hi GitSignsChange guifg=#83fce6]])
       vim.cmd([[hi GitSignsDelete guifg=#fa2525]])
     end,
   },
   {
-    "which-key.nvim",
+    'which-key.nvim',
     for_cat = 'general.extra',
     -- cmd = { "" },
-    event = "DeferredUIEnter",
+    event = 'DeferredUIEnter',
     -- ft = "",
     -- keys = "",
     -- colorscheme = "",
-    after = function (plugin)
-      require('which-key').setup({
-      })
+    after = function(plugin)
+      require('which-key').setup {}
       require('which-key').add {
-        { "<leader><leader>", group = "buffer commands" },
-        { "<leader><leader>_", hidden = true },
-        { "<leader>c", group = "[c]ode" },
-        { "<leader>c_", hidden = true },
-        { "<leader>d", group = "[d]ocument" },
-        { "<leader>d_", hidden = true },
-        { "<leader>g", group = "[g]it" },
-        { "<leader>g_", hidden = true },
-        { "<leader>m", group = "[m]arkdown" },
-        { "<leader>m_", hidden = true },
-        { "<leader>r", group = "[r]ename" },
-        { "<leader>r_", hidden = true },
-        { "<leader>s", group = "[s]earch" },
-        { "<leader>s_", hidden = true },
-        { "<leader>t", group = "[t]oggles" },
-        { "<leader>t_", hidden = true },
-        { "<leader>w", group = "[w]orkspace" },
-        { "<leader>w_", hidden = true },
+        { '<leader><leader>', group = 'buffer commands' },
+        { '<leader><leader>_', hidden = true },
+        { '<leader>c', group = '[c]ode' },
+        { '<leader>c_', hidden = true },
+        { '<leader>d', group = '[d]ocument' },
+        { '<leader>d_', hidden = true },
+        { '<leader>g', group = '[g]it' },
+        { '<leader>g_', hidden = true },
+        { '<leader>m', group = '[m]arkdown' },
+        { '<leader>m_', hidden = true },
+        { '<leader>r', group = '[r]ename' },
+        { '<leader>r_', hidden = true },
+        { '<leader>s', group = '[s]earch' },
+        { '<leader>s_', hidden = true },
+        { '<leader>t', group = '[t]oggles' },
+        { '<leader>t_', hidden = true },
+        { '<leader>w', group = '[w]orkspace' },
+        { '<leader>w_', hidden = true },
       }
+    end,
+  },
+  {
+    'easy-dotnet',
+    for_cat = 'dotnet',
+    -- event = 'DeferredUIEnter',
+    cmd = 'Dotnet',
+    ft = 'cs',
+    after = function(plugin)
+      require('easy-dotnet').setup()
+    end,
+  },
+  {
+    'dotnet',
+    for_cat = 'dotnet',
+    -- event = 'DeferredUIEnter',
+    cmd = 'DotnetUI',
+    ft = 'cs',
+    after = function(plugin)
+      require('dotnet').setup()
     end,
   },
 }

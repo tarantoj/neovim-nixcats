@@ -231,6 +231,38 @@
         "type": "github"
       }
     },
+    "plugins-dotnet": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1729544610,
+        "narHash": "sha256-QonW4orbtdMcoxqvB/FU7Cw5ABPExEMZwMLHIZWAWPs=",
+        "owner": "MoaidHathot",
+        "repo": "dotnet.nvim",
+        "rev": "f5c52f9f52a3d8ca8dff6916c2228fb41a075274",
+        "type": "github"
+      },
+      "original": {
+        "owner": "MoaidHathot",
+        "repo": "dotnet.nvim",
+        "type": "github"
+      }
+    },
+    "plugins-easy-dotnet": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1733125262,
+        "narHash": "sha256-bwSjU00w3+ll7SE9WC6M7vUGVlIp0O2Fzn8mUZuLik8=",
+        "owner": "GustavEikaas",
+        "repo": "easy-dotnet.nvim",
+        "rev": "2423f5093433dd76fc74bc97f5c6d3b54c28e16c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "GustavEikaas",
+        "repo": "easy-dotnet.nvim",
+        "type": "github"
+      }
+    },
     "plugins-roslyn": {
       "flake": false,
       "locked": {
@@ -252,6 +284,8 @@
         "neovim-nightly-overlay": "neovim-nightly-overlay",
         "nixCats": "nixCats",
         "nixpkgs": "nixpkgs_2",
+        "plugins-dotnet": "plugins-dotnet",
+        "plugins-easy-dotnet": "plugins-easy-dotnet",
         "plugins-roslyn": "plugins-roslyn"
       }
     }

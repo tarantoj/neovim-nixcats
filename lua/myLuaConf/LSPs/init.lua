@@ -83,7 +83,31 @@ end
 -- servers.pyright = {},
 -- servers.rust_analyzer = {},
 -- servers.tsserver = {},
--- servers.html = { filetypes = { 'html', 'twig', 'hbs'} },
+servers.html = {}
+servers.cssls = {}
+servers.jsonls = {
+  settings = {
+    json = {
+      schemas = require('schemastore').json.schemas(),
+      validate = { enable = true },
+    },
+  },
+}
+
+servers.yamlls={
+  settings = {
+    yaml = {
+      schemaStore = {
+        -- You must disable built-in schemaStore support if you want to use
+        -- this plugin and its advanced options like `ignore`.
+        enable = false,
+        -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+        url = '',
+      },
+      schemas = require('schemastore').yaml.schemas(),
+    },
+  },
+}
 
 if not require('nixCatsUtils').isNixCats and nixCats('lspDebugMode') then
   vim.lsp.set_log_level('debug')
@@ -97,6 +121,54 @@ vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('nixCats-lsp-attach', { clear = true }),
   callback = function(event)
     require('myLuaConf.LSPs.caps-on_attach').on_attach(vim.lsp.get_client_by_id(event.data.client_id), event.buf)
+
+    local nmap = function(keys, func, desc)
+      if desc then
+        desc = 'LSP: ' .. desc
+      end
+
+      vim.keymap.set('n', keys, func, { buffer = event.buf, desc = desc })
+    end
+
+    local client = vim.lsp.get_client_by_id(event.data.client_id)
+
+    if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, bufnr) then
+      vim.lsp.inlay_hint.enable(true, { bufnr = event.buf })
+      nmap('<leader>th', function()
+        vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
+      end, '[T]oggle Inlay [H]ints')
+    end
+
+    if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+      local highlight_augroup = vim.api.nvim_create_augroup('nixCats-lsp-highlight', { clear = false })
+      vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+        buffer = event.buf,
+        group = highlight_augroup,
+        callback = vim.lsp.buf.document_highlight,
+      })
+
+      vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
+        buffer = event.buf,
+        group = highlight_augroup,
+        callback = vim.lsp.buf.clear_references,
+      })
+
+      vim.api.nvim_create_autocmd('LspDetach', {
+        group = vim.api.nvim_create_augroup('nixCats-lsp-highlight', { clear = true }),
+        callback = function(event2)
+          vim.lsp.buf.clear_references()
+          vim.api.nvim_clear_autocmds { group = 'nixCats-lsp-highlight', buffer = event2.buf }
+        end,
+      })
+    end
+
+    if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_codeLens) then
+      vim.lsp.codelens.refresh()
+      vim.api.nvim_create_autocmd({ 'BufEnter', 'CursorHold', 'InsertLeave' }, {
+        buffer = event.buf,
+        callback = vim.lsp.codelens.refresh,
+      })
+    end
   end,
 })
 
@@ -150,7 +222,42 @@ require('lze').load {
     after = function(plugin)
       require('roslyn').setup {
         exe = 'Microsoft.CodeAnalysis.LanguageServer',
-        config = { capabilities = require('myLuaConf.LSPs.caps-on_attach').get_capabilities('roslyn') },
+        config = {
+          capabilities = require('myLuaConf.LSPs.caps-on_attach').get_capabilities('roslyn'),
+          settings = {
+            ['csharp|completion'] = {
+              ['dotnet_provide_regex_completions'] = true,
+              ['dotnet_show_completion_items_from_unimported_namespaces'] = true,
+              ['dotnet_show_name_completion_suggestions'] = true,
+            },
+            ['csharp|highlighting'] = {
+              ['dotnet_highlight_related_json_components'] = true,
+              ['dotnet_highlight_related_regex_components'] = true,
+            },
+            -- ['navigation'] = {
+            --   ['dotnet_navigate_to_decompiled_sources'] = true,
+            -- },
+            ['csharp|inlay_hints'] = {
+              csharp_enable_inlay_hints_for_implicit_object_creation = true,
+              csharp_enable_inlay_hints_for_implicit_variable_types = true,
+              csharp_enable_inlay_hints_for_lambda_parameter_types = true,
+              csharp_enable_inlay_hints_for_types = true,
+              dotnet_enable_inlay_hints_for_indexer_parameters = true,
+              dotnet_enable_inlay_hints_for_literal_parameters = true,
+              dotnet_enable_inlay_hints_for_object_creation_parameters = true,
+              dotnet_enable_inlay_hints_for_other_parameters = true,
+              dotnet_enable_inlay_hints_for_parameters = true,
+              dotnet_suppress_inlay_hints_for_parameters_that_differ_only_by_suffix = true,
+              dotnet_suppress_inlay_hints_for_parameters_that_match_argument_name = true,
+              dotnet_suppress_inlay_hints_for_parameters_that_match_method_intent = true,
+            },
+            ['csharp|code_lens'] = { dotnet_enable_tests_code_lens = false },
+            ['csharp|background_analysis'] = {
+              dotnet_analyzer_diagnostics_scope = 'openFiles',
+              dotnet_compiler_diagnostics_scope = 'fullSolution',
+            },
+          },
+        },
       }
     end,
     ft = 'cs',

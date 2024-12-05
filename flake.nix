@@ -43,6 +43,16 @@
       url = "github:seblj/roslyn.nvim";
       flake = false;
     };
+
+    "plugins-easy-dotnet" = {
+      url = "github:GustavEikaas/easy-dotnet.nvim";
+      flake = false;
+    };
+
+    "plugins-dotnet" = {
+      url = "github:MoaidHathot/dotnet.nvim";
+      flake = false;
+    };
   };
 
   # see :help nixCats.flake.outputs
@@ -124,9 +134,12 @@
           universal-ctags
           ripgrep
           fd
+          vscode-langservers-extracted
+          yaml-language-server
         ];
         # these names are arbitrary.
         lint = with pkgs; [
+          sqlfluff
         ];
         # but you can choose which ones you want
         # per nvim package you export
@@ -146,6 +159,9 @@
         format = with pkgs; [
           alejandra
           stylua
+          csharpier
+          prettierd
+          sqlfluff
         ];
         neonixdev = {
           # also you can do this.
@@ -166,18 +182,19 @@
             lze
             vim-repeat
             plenary-nvim
-	    fugitive
+            fugitive
           ];
           extra = [
             oil-nvim
             nvim-web-devicons
+            SchemaStore-nvim
           ];
         };
         # You can retreive information from the
         # packageDefinitions of the package this was packaged with.
         # :help nixCats.flake.outputs.categoryDefinitions.scheme
         themer = with pkgs.vimPlugins; (
-          builtins.getAttr (categories.colorscheme or "onedark") {
+          builtins.getAttr (categories.colorscheme or "tokyonight") {
             # Theme switcher without creating a new category
             "onedark" = onedark-nvim;
             "catppuccin" = catppuccin-nvim;
@@ -218,6 +235,10 @@
         ];
         neonixdev = with pkgs.vimPlugins; [
           lazydev-nvim
+        ];
+        dotnet = with pkgs.vimPlugins; [
+          pkgs.neovimPlugins.easy-dotnet
+          pkgs.neovimPlugins.dotnet
         ];
         general = {
           cmp = with pkgs.vimPlugins; [
@@ -268,6 +289,7 @@
             undotree
             indent-blankline-nvim
             vim-startuptime
+            neogen
             # If it was included in your flake inputs as plugins-hlargs,
             # this would be how to add that plugin in your config.
             # pkgs.neovimPlugins.hlargs
@@ -289,26 +311,26 @@
       # this section is for environmentVariables that should be available
       # at RUN TIME for plugins. Will be available to path within neovim terminal
       environmentVariables = {
-        test = {
-          default = {
-            CATTESTVARDEFAULT = "It worked!";
-          };
-          subtest1 = {
-            CATTESTVAR = "It worked!";
-          };
-          subtest2 = {
-            CATTESTVAR3 = "It didn't work!";
-          };
-        };
+        # test = {
+        #   default = {
+        #     CATTESTVARDEFAULT = "It worked!";
+        #   };
+        #   subtest1 = {
+        #     CATTESTVAR = "It worked!";
+        #   };
+        #   subtest2 = {
+        #     CATTESTVAR3 = "It didn't work!";
+        #   };
+        # };
       };
 
       # If you know what these are, you can provide custom ones by category here.
       # If you dont, check this link out:
       # https://github.com/NixOS/nixpkgs/blob/master/pkgs/build-support/setup-hooks/make-wrapper.sh
       extraWrapperArgs = {
-        test = [
-          ''--set CATTESTVAR2 "It worked again!"''
-        ];
+        # test = [
+        #   ''--set CATTESTVAR2 "It worked again!"''
+        # ];
       };
 
       # lists of the functions you would have passed to
@@ -339,6 +361,7 @@
         debug = [
           ["debug" "default"]
         ];
+        dotnet = [["default"]];
         go = [
           ["debug" "go"] # yes it has to be a list of lists
         ];
@@ -397,7 +420,7 @@
           # you could also pass something else:
           # see :help nixCats
           themer = true;
-          colorscheme = "catppuccin";
+          colorscheme = "tokyonight";
         };
         extra = {
           # to keep the categories table from being filled with non category things that you want to pass
@@ -434,7 +457,7 @@
           neonixdev = true;
           lint = true;
           format = true;
-	  dotnet=true;
+          dotnet = true;
           test = true;
           go = true; # <- disabled but you could enable it with override or module on install
           lspDebugMode = false;
