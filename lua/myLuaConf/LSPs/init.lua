@@ -40,6 +40,7 @@ if nixCats('neonixdev') then
     -- otherwise flake-path could be an absolute path to your system flake, or nil or false
     if nixCats.extra('nixdExtras.flake-path') then
       local flakePath = nixCats.extra('nixdExtras.flake-path')
+      servers.nixd.nixd.options={}
       if nixCats.extra('nixdExtras.systemCFGname') then
         -- (builtins.getFlake "<path_to_system_flake>").nixosConfigurations."<name>".options
         servers.nixd.nixd.options.nixos = {
