@@ -32,6 +32,7 @@ if nixCats('neonixdev') then
         },
       },
     }
+    servers.nil_ls = {}
     -- If you integrated with your system flake,
     -- you should pass inputs.self as nixdExtras.flake-path
     -- that way it will ALWAYS work, regardless
@@ -58,7 +59,6 @@ if nixCats('neonixdev') then
     end
   else
     servers.rnix = {}
-    servers.nil_ls = {}
   end
 end
 
@@ -94,7 +94,7 @@ servers.jsonls = {
   },
 }
 
-servers.yamlls={
+servers.yamlls = {
   settings = {
     yaml = {
       schemaStore = {
