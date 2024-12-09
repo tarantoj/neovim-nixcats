@@ -40,7 +40,7 @@ if nixCats('neonixdev') then
     -- otherwise flake-path could be an absolute path to your system flake, or nil or false
     if nixCats.extra('nixdExtras.flake-path') then
       local flakePath = nixCats.extra('nixdExtras.flake-path')
-      servers.nixd.nixd.options={}
+      servers.nixd.nixd.options = {}
       if nixCats.extra('nixdExtras.systemCFGname') then
         -- (builtins.getFlake "<path_to_system_flake>").nixosConfigurations."<name>".options
         servers.nixd.nixd.options.nixos = {
@@ -65,6 +65,11 @@ end
 
 if nixCats('go') then
   servers.gopls = {}
+end
+
+if nixCats('tf') then
+  servers.terraformls = {}
+  servers.tflint = {}
 end
 
 -- This is this flake's version of what kickstarter has set up for mason handlers.

@@ -152,6 +152,12 @@
           go-tools
           gccgo
         ];
+        tf = with pkgs; [
+          terraform-ls
+          tflint
+          tflint-plugins.tflint-ruleset-aws
+          tflint-plugins.tflint-ruleset-google
+        ];
         dotnet = with pkgs; [
           roslyn-ls
         ];
@@ -409,6 +415,7 @@
             subtest1 = true;
           };
           dotnet = true;
+          tf = true;
 
           # enabling this category will enable the go category,
           # and ALSO debug.go and debug.default due to our extraCats in categoryDefinitions.
