@@ -118,26 +118,22 @@ end
 servers.html = {}
 servers.cssls = {}
 servers.jsonls = {
-  settings = {
-    json = {
-      schemas = require('schemastore').json.schemas(),
-      validate = { enable = true },
-    },
+  json = {
+    schemas = require('schemastore').json.schemas(),
+    validate = { enable = true },
   },
 }
 
 servers.yamlls = {
-  settings = {
-    yaml = {
-      schemaStore = {
-        -- You must disable built-in schemaStore support if you want to use
-        -- this plugin and its advanced options like `ignore`.
-        enable = false,
-        -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
-        url = '',
-      },
-      schemas = require('schemastore').yaml.schemas(),
+  yaml = {
+    schemaStore = {
+      -- You must disable built-in schemaStore support if you want to use
+      -- this plugin and its advanced options like `ignore`.
+      enable = false,
+      -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+      url = '',
     },
+    schemas = require('schemastore').yaml.schemas(),
   },
 }
 
@@ -164,7 +160,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     local client = vim.lsp.get_client_by_id(event.data.client_id)
 
-    if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, bufnr) then
+    if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
       vim.lsp.inlay_hint.enable(true, { bufnr = event.buf })
       nmap('<leader>th', function()
         vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
