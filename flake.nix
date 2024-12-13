@@ -157,6 +157,7 @@
           tflint
           tflint-plugins.tflint-ruleset-aws
           tflint-plugins.tflint-ruleset-google
+        ];
         js = with pkgs; [
           typescript
           typescript-language-server
