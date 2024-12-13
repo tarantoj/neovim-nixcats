@@ -157,6 +157,10 @@
           tflint
           tflint-plugins.tflint-ruleset-aws
           tflint-plugins.tflint-ruleset-google
+        js = with pkgs; [
+          typescript
+          typescript-language-server
+          eslint
         ];
         dotnet = with pkgs; [
           roslyn-ls
@@ -416,6 +420,7 @@
           };
           dotnet = true;
           tf = true;
+          js = true;
 
           # enabling this category will enable the go category,
           # and ALSO debug.go and debug.default due to our extraCats in categoryDefinitions.
@@ -466,6 +471,7 @@
           format = true;
           dotnet = true;
           test = true;
+          js = true;
           go = true; # <- disabled but you could enable it with override or module on install
           lspDebugMode = false;
           themer = true;

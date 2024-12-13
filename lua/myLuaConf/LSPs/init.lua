@@ -72,6 +72,32 @@ if nixCats('tf') then
   servers.tflint = {}
 end
 
+if nixCats('js') then
+  servers.eslint = {}
+  servers.ts_ls = {
+    typescript = {
+      inlayHints = {
+        includeInlayParameterNameHints = 'all',
+        includeInlayFunctionParameterTypeHints = true,
+        includeInlayVariableTypeHints = true,
+        includeInlayPropertyDeclarationTypeHints = true,
+        includeInlayFunctionLikeReturnTypeHints = true,
+        includeInlayEnumMemberValueHints = true,
+      },
+    },
+    javascript = {
+      inlayHints = {
+        includeInlayParameterNameHints = 'all',
+        includeInlayFunctionParameterTypeHints = true,
+        includeInlayVariableTypeHints = true,
+        includeInlayPropertyDeclarationTypeHints = true,
+        includeInlayFunctionLikeReturnTypeHints = true,
+        includeInlayEnumMemberValueHints = true,
+      },
+    },
+  }
+end
+
 -- This is this flake's version of what kickstarter has set up for mason handlers.
 -- This is a convenience function that calls lspconfig on the lsps we downloaded via nix
 -- This will not download your lsp. Nix does that.
@@ -145,7 +171,14 @@ vim.api.nvim_create_autocmd('LspAttach', {
       end, '[T]oggle Inlay [H]ints')
     end
 
-    if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+    if client and client.name == 'eslint' then
+      vim.api.nvim_create_autocmd('BufWritePre', {
+        buffer = event.buf,
+        command = 'EslintFixAll',
+      })
+    end
+
+    if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
       local highlight_augroup = vim.api.nvim_create_augroup('nixCats-lsp-highlight', { clear = false })
       vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
         buffer = event.buf,
