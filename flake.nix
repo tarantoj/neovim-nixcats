@@ -71,6 +71,10 @@
     # will not apply to module imports
     # as that will have your system values
     extra_pkg_config = {
+      permittedInsecurePackages = [
+        "dotnet-sdk-6.0.428"
+      ];
+
       # allowUnfree = true;
     };
     # management of the system variable is one of the harder parts of using flakes.
@@ -165,6 +169,7 @@
         ];
         dotnet = with pkgs; [
           roslyn-ls
+          netcoredbg
         ];
         # and easily check if they are included in lua
         format = with pkgs; [
@@ -250,6 +255,7 @@
         dotnet = with pkgs.vimPlugins; [
           pkgs.neovimPlugins.easy-dotnet
           pkgs.neovimPlugins.dotnet
+          pkgs.neovimPlugins.roslyn
         ];
         general = {
           cmp = with pkgs.vimPlugins; [
@@ -306,7 +312,6 @@
             # If it was included in your flake inputs as plugins-hlargs,
             # this would be how to add that plugin in your config.
             # pkgs.neovimPlugins.hlargs
-            pkgs.neovimPlugins.roslyn
           ];
         };
       };

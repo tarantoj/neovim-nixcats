@@ -127,8 +127,8 @@ require('lze').load {
   },
   {
     'neogen',
-    for_cat = 'general.always',
-    event = 'DeferredUIEnter',
+    for_cat = 'general.extra',
+    keys = { { '<leader>ng', ":lua require('neogen').generate()<CR>", mode = { 'n' }, desc = '[N]eo[G]enerate' } },
     after = function(plugin)
       require('neogen').setup {
         snippet_engine = 'luasnip',
