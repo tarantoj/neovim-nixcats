@@ -251,11 +251,11 @@
     "plugins-easy-dotnet": {
       "flake": false,
       "locked": {
-        "lastModified": 1733743919,
-        "narHash": "sha256-bySE+Bg93SayPEF7xop0vWO7wO/gANSiLomlkA+0iwo=",
+        "lastModified": 1734180856,
+        "narHash": "sha256-czBXWNlwd0pXA6YOn2YwguibagU0S51RpnLHI0szr2Y=",
         "owner": "GustavEikaas",
         "repo": "easy-dotnet.nvim",
-        "rev": "449c426cd373b148860f5bc04125c20b3b36918a",
+        "rev": "21cd9c04f9d45ca99236b3b518afd56b6f85b345",
         "type": "github"
       },
       "original": {
@@ -267,11 +267,11 @@
     "plugins-roslyn": {
       "flake": false,
       "locked": {
-        "lastModified": 1734107830,
-        "narHash": "sha256-JQDQIteuiS0gwu4KauDtlzMIlMWwLzrXsGQ02oEC/Ww=",
+        "lastModified": 1734198003,
+        "narHash": "sha256-k4zP+Gmmi/FCl7naSu8OP+cW3+rCpF+aYEw0qsuAZaU=",
         "owner": "seblj",
         "repo": "roslyn.nvim",
-        "rev": "6d591af98e0fac1d382de15de88d26df53ec8b67",
+        "rev": "b0ad6709ca05428b4d98fab1992565681480e482",
         "type": "github"
       },
       "original": {
