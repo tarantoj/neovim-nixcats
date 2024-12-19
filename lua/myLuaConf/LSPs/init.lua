@@ -72,6 +72,10 @@ if nixCats('tf') then
   servers.tflint = {}
 end
 
+if nixCats('python') then
+  servers.basedpyright = {}
+end
+
 if nixCats('js') then
   servers.eslint = {}
   servers.ts_ls = {

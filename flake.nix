@@ -156,6 +156,9 @@
           go-tools
           gccgo
         ];
+        python = with pkgs; [
+          basedpyright
+        ];
         tf = with pkgs; [
           terraform-ls
           tflint
@@ -430,6 +433,7 @@
           dotnet = true;
           tf = true;
           js = true;
+          python = true;
 
           # enabling this category will enable the go category,
           # and ALSO debug.go and debug.default due to our extraCats in categoryDefinitions.
