@@ -15,6 +15,7 @@ require('lze').load {
         -- javascript = { 'eslint' },
         -- typescript = { 'eslint' },
         sql = { 'sqlfluff' },
+        terraform = { 'tfsec' },
       }
 
       vim.api.nvim_create_autocmd({ 'BufWritePost' }, {

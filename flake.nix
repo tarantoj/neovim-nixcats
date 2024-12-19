@@ -159,6 +159,7 @@
         tf = with pkgs; [
           terraform-ls
           tflint
+          tfsec
           tflint-plugins.tflint-ruleset-aws
           tflint-plugins.tflint-ruleset-google
         ];
