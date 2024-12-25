@@ -140,6 +140,9 @@
           fd
           vscode-langservers-extracted
           yaml-language-server
+          bash-language-server
+          shellcheck
+          shfmt
         ];
         # these names are arbitrary.
         lint = with pkgs; [
