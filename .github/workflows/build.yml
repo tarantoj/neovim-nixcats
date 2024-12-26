@@ -1,0 +1,26 @@
+name: "Build neovim"
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: Install nix
+      uses: cachix/install-nix-action@v30
+      with:
+        extra_nix_config: |
+          experimental-features = nix-command flakes
+    - uses: DeterminateSystems/magic-nix-cache-action@main
+    - name: Build nix packages
+      run: nix build --accept-flake-config
+
