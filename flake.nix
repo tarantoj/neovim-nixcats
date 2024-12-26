@@ -211,6 +211,7 @@
             oil-nvim
             nvim-web-devicons
             SchemaStore-nvim
+            neo-tree-nvim
           ];
         };
         # You can retreive information from the
