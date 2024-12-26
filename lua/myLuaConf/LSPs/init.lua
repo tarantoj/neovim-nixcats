@@ -77,7 +77,7 @@ if nixCats('python') then
 end
 
 if nixCats('js') then
-  servers.eslint = {}
+  servers.eslint = { { workingDirectories = { mode = 'auto' }, format = true } }
   servers.ts_ls = {
     typescript = {
       inlayHints = {
@@ -123,6 +123,7 @@ servers.html = {}
 servers.cssls = {}
 servers.jsonls = {
   json = {
+    format = { enable = true },
     schemas = require('schemastore').json.schemas(),
     validate = { enable = true },
   },
