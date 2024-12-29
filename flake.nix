@@ -267,8 +267,10 @@
           lazydev-nvim
         ];
         dotnet = with pkgs.vimPlugins; [
-          pkgs.neovimPlugins.easy-dotnet
-          pkgs.neovimPlugins.dotnet
+          (pkgs.neovimPlugins.easy-dotnet.overrideAttrs {dependencies = [pkgs.vimPlugins.plenary-nvim pkgs.vimPlugins.telescope-nvim pkgs.vimPlugins.fzf-lua];})
+          (
+            pkgs.neovimPlugins.dotnet.overrideAttrs {dependencies = [pkgs.vimPlugins.plenary-nvim pkgs.vimPlugins.telescope-nvim];}
+          )
           pkgs.neovimPlugins.roslyn
         ];
         general = {
