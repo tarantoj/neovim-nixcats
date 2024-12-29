@@ -9,9 +9,9 @@ jobs:
     strategy:
       matrix:
         os:
-          - linux
-          - macOS
-    runs-on: [ "${{ matrix.os }}" ]
+          - ubuntu-latest
+          - macos-latest
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
