@@ -168,6 +168,7 @@
           tfsec
           tflint-plugins.tflint-ruleset-aws
           tflint-plugins.tflint-ruleset-google
+          terraform-ls
         ];
         js = with pkgs; [
           typescript
@@ -177,6 +178,11 @@
         dotnet = with pkgs; [
           roslyn-ls
           netcoredbg
+        ];
+        docker = with pkgs; [
+          docker-compose-language-service
+          dockerfile-language-server-nodejs
+          hadolint
         ];
         # and easily check if they are included in lua
         format = with pkgs; [
