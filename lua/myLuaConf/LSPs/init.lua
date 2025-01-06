@@ -77,7 +77,15 @@ if nixCats('python') then
 end
 
 if nixCats('js') then
-  servers.eslint = { { workingDirectories = { mode = 'auto' }, format = true } }
+  servers.eslint = {
+    workingDirectories = { mode = 'auto' },
+    format = true,
+    codeActionOnSave = {
+      enable = true,
+      mode = 'all',
+    },
+  }
+
   servers.ts_ls = {
     typescript = {
       inlayHints = {
