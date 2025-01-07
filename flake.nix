@@ -212,6 +212,7 @@
             vim-repeat
             plenary-nvim
             fugitive
+            rhubarb
           ];
           extra = [
             oil-nvim
