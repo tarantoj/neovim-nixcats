@@ -143,6 +143,7 @@
           bash-language-server
           shellcheck
           shfmt
+          nodejs
         ];
         # these names are arbitrary.
         lint = with pkgs; [
@@ -302,6 +303,14 @@
             #     lua
             #   ]
             # ))
+          ];
+          ai = with pkgs.vimPlugins; [
+            avante-nvim
+            copilot-lua
+            render-markdown-nvim
+            img-clip-nvim
+            dressing-nvim
+            nui-nvim
           ];
           telescope = with pkgs.vimPlugins; [
             telescope-fzf-native-nvim
