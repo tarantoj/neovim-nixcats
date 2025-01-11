@@ -51,6 +51,7 @@ require('lze').load {
           css = { 'prettier', 'prettierd', stop_after_first = true },
           nix = { 'alejandra' },
           cs = { 'injected', 'csharpier' },
+          sh = { 'shfmt' },
           -- ['*'] = { 'injected' },
         },
         format_on_save = {
