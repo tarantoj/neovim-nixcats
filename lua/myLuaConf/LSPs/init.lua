@@ -86,6 +86,8 @@ if nixCats('js') then
     },
   }
 
+  servers.tailwindcss = {}
+
   servers.ts_ls = {
     typescript = {
       inlayHints = {

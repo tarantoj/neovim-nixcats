@@ -176,6 +176,7 @@
           typescript
           typescript-language-server
           eslint
+          tailwindcss-language-server
         ];
         dotnet = with pkgs; [
           roslyn-ls
