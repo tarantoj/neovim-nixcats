@@ -139,6 +139,7 @@ servers.jsonls = {
 
 servers.dockerls = {}
 servers.docker_compose_language_service = {}
+servers.taplo = {}
 
 servers.yamlls = {
   redhat = { telemetry = { enabled = false } },
