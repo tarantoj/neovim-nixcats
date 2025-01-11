@@ -14,6 +14,7 @@ return {
       vim.cmd.packadd('nvim-treesitter-textobjects')
       vim.cmd.packadd('rainbow-delimiters.nvim')
       vim.cmd.packadd('nvim-treesitter-context')
+      vim.cmd.packadd('nvim-ts-autotag')
     end,
     after = function(plugin)
       -- [[ Configure Treesitter ]]
@@ -76,6 +77,8 @@ return {
           },
         },
       }
+
+      require('nvim-ts-autotag').setup()
     end,
   },
 }
