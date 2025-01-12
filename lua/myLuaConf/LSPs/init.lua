@@ -32,6 +32,7 @@ if nixCats('neonixdev') then
         },
       },
     }
+    servers.statix = {}
     servers.nil_ls = {}
     -- If you integrated with your system flake,
     -- you should pass inputs.self as nixdExtras.flake-path
