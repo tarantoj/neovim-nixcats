@@ -5,7 +5,7 @@ return {
     cmd = 'AvanteAsk',
     after = function()
       require('avante_lib').load()
-      require('avante').setup()
+      require('avante').setup { provider = 'copilot' }
     end,
   },
   {
