@@ -17,6 +17,7 @@ require('lze').load {
         sql = { 'sqlfluff' },
         terraform = { 'tfsec' },
         dockerfile = { 'hadolint' },
+        ['yaml.github'] = { 'actionlint' },
       }
 
       vim.api.nvim_create_autocmd({ 'BufWritePost' }, {

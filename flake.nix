@@ -145,6 +145,7 @@
           shellcheck
           shfmt
           nodejs
+          actionlint
         ];
         # these names are arbitrary.
         lint = with pkgs; [
