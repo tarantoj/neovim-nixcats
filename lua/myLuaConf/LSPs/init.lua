@@ -89,28 +89,28 @@ if nixCats('js') then
 
   servers.tailwindcss = {}
 
-  servers.ts_ls = {
-    typescript = {
-      inlayHints = {
-        includeInlayParameterNameHints = 'all',
-        includeInlayFunctionParameterTypeHints = true,
-        includeInlayVariableTypeHints = true,
-        includeInlayPropertyDeclarationTypeHints = true,
-        includeInlayFunctionLikeReturnTypeHints = true,
-        includeInlayEnumMemberValueHints = true,
-      },
-    },
-    javascript = {
-      inlayHints = {
-        includeInlayParameterNameHints = 'all',
-        includeInlayFunctionParameterTypeHints = true,
-        includeInlayVariableTypeHints = true,
-        includeInlayPropertyDeclarationTypeHints = true,
-        includeInlayFunctionLikeReturnTypeHints = true,
-        includeInlayEnumMemberValueHints = true,
-      },
-    },
-  }
+  -- servers.ts_ls = {
+  --   typescript = {
+  --     inlayHints = {
+  --       includeInlayParameterNameHints = 'all',
+  --       includeInlayFunctionParameterTypeHints = true,
+  --       includeInlayVariableTypeHints = true,
+  --       includeInlayPropertyDeclarationTypeHints = true,
+  --       includeInlayFunctionLikeReturnTypeHints = true,
+  --       includeInlayEnumMemberValueHints = true,
+  --     },
+  --   },
+  --   javascript = {
+  --     inlayHints = {
+  --       includeInlayParameterNameHints = 'all',
+  --       includeInlayFunctionParameterTypeHints = true,
+  --       includeInlayVariableTypeHints = true,
+  --       includeInlayPropertyDeclarationTypeHints = true,
+  --       includeInlayFunctionLikeReturnTypeHints = true,
+  --       includeInlayEnumMemberValueHints = true,
+  --     },
+  --   },
+  -- }
 end
 
 -- This is this flake's version of what kickstarter has set up for mason handlers.
@@ -322,5 +322,12 @@ require('lze').load {
       }
     end,
     ft = 'cs',
+  },
+  {
+    'typescript-tools.nvim',
+    for_cat = 'js',
+    after = function(plugin)
+      require('typescript-tools').setup {}
+    end,
   },
 }

@@ -176,7 +176,6 @@
         ];
         js = with pkgs; [
           typescript
-          typescript-language-server
           eslint
           tailwindcss-language-server
         ];
@@ -273,6 +272,7 @@
         neonixdev = with pkgs.vimPlugins; [
           lazydev-nvim
         ];
+        js = with pkgs.vimPlugins; [typescript-tools-nvim];
         dotnet = with pkgs.vimPlugins; [
           (pkgs.neovimPlugins.easy-dotnet.overrideAttrs {dependencies = [pkgs.vimPlugins.plenary-nvim pkgs.vimPlugins.telescope-nvim pkgs.vimPlugins.fzf-lua];})
           (
