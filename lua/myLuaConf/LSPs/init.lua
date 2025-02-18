@@ -326,6 +326,7 @@ require('lze').load {
   {
     'typescript-tools.nvim',
     for_cat = 'js',
+    event = 'DeferredUIEnter',
     after = function(plugin)
       require('typescript-tools').setup {}
     end,
