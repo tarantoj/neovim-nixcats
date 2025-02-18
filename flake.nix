@@ -337,6 +337,7 @@
             # lualine-lsp-progress
             which-key-nvim
             comment-nvim
+            nvim-ts-context-commentstring
             undotree
             indent-blankline-nvim
             vim-startuptime
