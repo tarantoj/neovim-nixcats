@@ -145,6 +145,7 @@
           shellcheck
           shfmt
           nodejs
+          imagemagick
           actionlint
         ];
         # these names are arbitrary.
@@ -223,6 +224,7 @@
             nvim-web-devicons
             SchemaStore-nvim
             neo-tree-nvim
+            image-nvim
           ];
         };
         # You can retreive information from the

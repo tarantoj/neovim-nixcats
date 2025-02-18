@@ -379,6 +379,25 @@ require('lze').load {
     end,
   },
   {
+    'image.nvim',
+    ft = 'markdown',
+    after = function()
+      require('image').setup {
+        processor = 'magick_cli',
+        integrations = {
+          markdown = {
+            enabled = true,
+            clear_in_insert_mode = false,
+            download_remote_images = true,
+            only_render_image_at_cursor = false,
+            floating_windows = true, -- if true, images will be rendered in floating markdown windows
+            filetypes = { 'markdown', 'vimwiki', 'noice', 'cmd_docs' }, -- markdown extensions (ie. quarto) can go here
+          },
+        },
+      }
+    end,
+  },
+  {
     'neo-tree.nvim',
     for_cat = 'general.extra',
     cmd = 'Neotree',
