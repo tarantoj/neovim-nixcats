@@ -25,5 +25,4 @@ return {
   },
   { 'dressing-nvim', for_cat = 'general.ai', dep_of = 'avante.nvim' },
   { 'nui-nvim', for_cat = 'general.ai', dep_of = 'avante.nvim' },
-  { 'dressing.nvim', for_cat = 'general.ai', dep_of = 'avante.nvim' },
 }
