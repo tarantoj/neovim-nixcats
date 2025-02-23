@@ -2,7 +2,15 @@ return {
   {
     'avante.nvim',
     for_cat = 'general.ai',
-    cmd = 'AvanteAsk',
+    cmd = {
+      'AvanteAsk',
+      'AvanteChat',
+      'AvanteEdit',
+      'AvanteFocus',
+      'AvanteSwitchProvider',
+      'AvanteShowRepoMap',
+      'AvanteToggle',
+    },
     after = function()
       require('avante_lib').load()
       require('avante').setup { provider = 'copilot' }
