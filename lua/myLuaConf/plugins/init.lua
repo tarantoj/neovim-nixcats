@@ -320,4 +320,5 @@ require('lze').load {
       }
     end,
   },
+  { 'vim-fugitive', cmd={"G"} },
 }
