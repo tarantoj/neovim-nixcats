@@ -144,6 +144,27 @@
           go-tools
           gccgo
         ];
+        python = with pkgs; [
+          basedpyright
+        ];
+        tf = with pkgs; [
+          terraform-ls
+          tflint
+          tfsec
+          tflint-plugins.tflint-ruleset-aws
+          tflint-plugins.tflint-ruleset-google
+          terraform-ls
+        ];
+        js = with pkgs; [
+          typescript
+          eslint
+          tailwindcss-language-server
+        ];
+        dotnet = with pkgs; [
+          roslyn-ls
+          netcoredbg
+        ];
+
         # and easily check if they are included in lua
         format = with pkgs; [
           alejandra
@@ -455,7 +476,7 @@
           # go = true; # <- disabled but you could enable it with override or module on install
           lspDebugMode = false;
           themer = true;
-          colorscheme = "catppuccin";
+          colorscheme = "tokyonight";
         };
         extra = {
           # nixCats.extra("path.to.val") will perform vim.tbl_get(nixCats.extra, "path" "to" "val")
