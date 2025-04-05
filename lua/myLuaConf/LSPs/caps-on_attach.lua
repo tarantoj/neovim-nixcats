@@ -20,10 +20,18 @@ function M.on_attach(_, bufnr)
   -- because otherwise they would load telescope eagerly when this is defined.
   -- due to us using the on_require handler to make sure it is available.
   if nixCats('general.telescope') then
-    nmap('gr', function() require('telescope.builtin').lsp_references() end, '[G]oto [R]eferences')
-    nmap('gI', function() require('telescope.builtin').lsp_implementations() end, '[G]oto [I]mplementation')
-    nmap('<leader>ds', function() require('telescope.builtin').lsp_document_symbols() end, '[D]ocument [S]ymbols')
-    nmap('<leader>ws', function() require('telescope.builtin').lsp_dynamic_workspace_symbols() end, '[W]orkspace [S]ymbols')
+    nmap('gr', function()
+      require('telescope.builtin').lsp_references()
+    end, '[G]oto [R]eferences')
+    nmap('gI', function()
+      require('telescope.builtin').lsp_implementations()
+    end, '[G]oto [I]mplementation')
+    nmap('<leader>ds', function()
+      require('telescope.builtin').lsp_document_symbols()
+    end, '[D]ocument [S]ymbols')
+    nmap('<leader>ws', function()
+      require('telescope.builtin').lsp_dynamic_workspace_symbols()
+    end, '[W]orkspace [S]ymbols')
   end -- TODO: someone who knows the builtin versions of these to do instead help me out please.
 
   nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
@@ -44,7 +52,6 @@ function M.on_attach(_, bufnr)
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
     vim.lsp.buf.format()
   end, { desc = 'Format current buffer with LSP' })
-
 end
 
 function M.get_capabilities(server_name)
