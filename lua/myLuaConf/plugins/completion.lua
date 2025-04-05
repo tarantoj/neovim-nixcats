@@ -1,79 +1,76 @@
----packadd + after/plugin
----@type fun(names: string[]|string)
-local load_w_after_plugin = require('nixCatsUtils.lzUtils').make_load_with_after { 'plugin' }
-
--- NOTE: packadd doesnt load after directories.
--- hence, the above function that you can get from luaUtils that exists to make that easy.
+local load_w_after = function(name)
+  vim.cmd.packadd(name)
+  vim.cmd.packadd(name .. '/after')
+end
 
 return {
   {
-    'cmp-buffer',
+    "cmp-buffer",
     for_cat = 'general.cmp',
-    on_plugin = { 'nvim-cmp' },
-    load = load_w_after_plugin,
+    on_plugin = { "nvim-cmp" },
+    load = load_w_after,
   },
   {
-    'cmp-cmdline',
+    "cmp-cmdline",
     for_cat = 'general.cmp',
-    on_plugin = { 'nvim-cmp' },
-    load = load_w_after_plugin,
+    on_plugin = { "nvim-cmp" },
+    load = load_w_after,
   },
   {
-    'cmp-cmdline-history',
+    "cmp-cmdline-history",
     for_cat = 'general.cmp',
-    on_plugin = { 'nvim-cmp' },
-    load = load_w_after_plugin,
+    on_plugin = { "nvim-cmp" },
+    load = load_w_after,
   },
   {
-    'cmp-nvim-lsp',
+    "cmp-nvim-lsp",
     for_cat = 'general.cmp',
-    on_plugin = { 'nvim-cmp' },
-    dep_of = { 'nvim-lspconfig' },
-    load = load_w_after_plugin,
+    on_plugin = { "nvim-cmp" },
+    dep_of = { "nvim-lspconfig" },
+    load = load_w_after,
   },
   {
-    'cmp-nvim-lsp-signature-help',
+    "cmp-nvim-lsp-signature-help",
     for_cat = 'general.cmp',
-    on_plugin = { 'nvim-cmp' },
-    load = load_w_after_plugin,
+    on_plugin = { "nvim-cmp" },
+    load = load_w_after,
   },
   {
-    'cmp-nvim-lua',
+    "cmp-nvim-lua",
     for_cat = 'general.cmp',
-    on_plugin = { 'nvim-cmp' },
-    load = load_w_after_plugin,
+    on_plugin = { "nvim-cmp" },
+    load = load_w_after,
   },
   {
-    'cmp-path',
+    "cmp-path",
     for_cat = 'general.cmp',
-    on_plugin = { 'nvim-cmp' },
-    load = load_w_after_plugin,
+    on_plugin = { "nvim-cmp" },
+    load = load_w_after,
   },
   {
-    'cmp_luasnip',
+    "cmp_luasnip",
     for_cat = 'general.cmp',
-    on_plugin = { 'nvim-cmp' },
-    load = load_w_after_plugin,
+    on_plugin = { "nvim-cmp" },
+    load = load_w_after,
   },
   {
-    'friendly-snippets',
+    "friendly-snippets",
     for_cat = 'general.cmp',
-    dep_of = { 'nvim-cmp' },
+    dep_of = { "nvim-cmp" },
   },
   {
-    'lspkind.nvim',
+    "lspkind.nvim",
     for_cat = 'general.cmp',
-    dep_of = { 'nvim-cmp' },
-    load = load_w_after_plugin,
+    dep_of = { "nvim-cmp" },
+    load = load_w_after,
   },
   {
-    'luasnip',
+    "luasnip",
     for_cat = 'general.cmp',
-    dep_of = { 'nvim-cmp' },
-    after = function(plugin)
-      local luasnip = require('luasnip')
+    dep_of = { "nvim-cmp" },
+    after = function (plugin)
+      local luasnip = require 'luasnip'
       require('luasnip.loaders.from_vscode').lazy_load()
-      require('luasnip.loaders.from_vscode').lazy_load {}
       luasnip.filetype_extend('typescript', { 'tsdoc' })
       luasnip.filetype_extend('javascript', { 'jsdoc' })
       luasnip.filetype_extend('lua', { 'luadoc' })
@@ -92,28 +89,28 @@ return {
 
       local ls = require('luasnip')
 
-      vim.keymap.set({ 'i', 's' }, '<M-n>', function()
-        if ls.choice_active() then
-          ls.change_choice(1)
-        end
+      vim.keymap.set({ "i", "s" }, "<M-n>", function()
+          if ls.choice_active() then
+              ls.change_choice(1)
+          end
       end)
     end,
   },
   {
-    'nvim-cmp',
+    "nvim-cmp",
     for_cat = 'general.cmp',
     -- cmd = { "" },
-    event = { 'DeferredUIEnter' },
-    on_require = { 'cmp' },
+    event = { "DeferredUIEnter" },
+    on_require = { "cmp" },
     -- ft = "",
     -- keys = "",
     -- colorscheme = "",
-    after = function(plugin)
+    after = function (plugin)
       -- [[ Configure nvim-cmp ]]
       -- See `:help cmp`
-      local cmp = require('cmp')
-      local luasnip = require('luasnip')
-      local lspkind = require('lspkind')
+      local cmp = require 'cmp'
+      local luasnip = require 'luasnip'
+      local lspkind = require 'lspkind'
 
       cmp.setup {
         formatting = {
@@ -169,12 +166,8 @@ return {
 
         sources = cmp.config.sources {
           -- The insertion order influences the priority of the sources
-          {
-            name = 'nvim_lsp' --[[ , keyword_length = 3 ]],
-          },
-          {
-            name = 'nvim_lsp_signature_help' --[[ , keyword_length = 3  ]],
-          },
+          { name = 'nvim_lsp'--[[ , keyword_length = 3 ]] },
+          { name = 'nvim_lsp_signature_help'--[[ , keyword_length = 3  ]]},
           { name = 'path' },
           { name = 'luasnip' },
           { name = 'buffer' },
@@ -191,17 +184,12 @@ return {
       cmp.setup.filetype('lua', {
         sources = cmp.config.sources {
           { name = 'nvim_lua' },
-          {
-            name = 'nvim_lsp' --[[ , keyword_length = 3  ]],
-          },
-          {
-            name = 'nvim_lsp_signature_help' --[[ , keyword_length = 3  ]],
-          },
+          { name = 'nvim_lsp'--[[ , keyword_length = 3  ]]},
+          { name = 'nvim_lsp_signature_help'--[[ , keyword_length = 3  ]]},
           { name = 'path' },
           { name = 'luasnip' },
           { name = 'buffer' },
-        },
-        {
+        },{
           {
             name = 'cmdline',
             option = {
@@ -215,9 +203,7 @@ return {
       cmp.setup.cmdline({ '/', '?' }, {
         mapping = cmp.mapping.preset.cmdline(),
         sources = {
-          {
-            name = 'nvim_lsp_document_symbol' --[[ , keyword_length = 3  ]],
-          },
+          { name = 'nvim_lsp_document_symbol'--[[ , keyword_length = 3  ]]},
           { name = 'buffer' },
           { name = 'cmdline_history' },
         },

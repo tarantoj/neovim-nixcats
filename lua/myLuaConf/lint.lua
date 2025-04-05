@@ -1,28 +1,24 @@
 require('lze').load {
   {
-    'nvim-lint',
+    "nvim-lint",
     for_cat = 'lint',
     -- cmd = { "" },
-    event = 'FileType',
+    event = "FileType",
     -- ft = "",
     -- keys = "",
     -- colorscheme = "",
-    after = function(plugin)
+    after = function (plugin)
       require('lint').linters_by_ft = {
         -- NOTE: download some linters in lspsAndRuntimeDeps
         -- and configure them here
         -- markdown = {'vale',},
         -- javascript = { 'eslint' },
         -- typescript = { 'eslint' },
-        sql = { 'sqlfluff' },
-        terraform = { 'tfsec' },
-        dockerfile = { 'hadolint' },
-        ['yaml.github'] = { 'actionlint' },
       }
 
-      vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
+      vim.api.nvim_create_autocmd({ "BufWritePost" }, {
         callback = function()
-          require('lint').try_lint()
+          require("lint").try_lint()
         end,
       })
     end,

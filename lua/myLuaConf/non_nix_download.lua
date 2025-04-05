@@ -1,9 +1,10 @@
 -- load the plugins via paq-nvim when not on nix
 -- YOU are in charge of putting the plugin
--- urls and build steps in there, which will only be used when not on nix,
--- and you should keep any setup functions
--- OUT of that file, as they are ONLY loaded when this
--- configuration is NOT loaded via nix.
+-- urls and build steps in here, which will only be used when not on nix.
+-- and you should keep any setup functions OUT of this file
+
+-- again, you dont need this file if you only use nix to load the config,
+-- this is a fallback only, and is optional.
 require('nixCatsUtils.catPacker').setup({
 --[[ ------------------------------------------ ]]
 --[[ The way to think of this is, its very      ]]
@@ -21,11 +22,13 @@ require('nixCatsUtils.catPacker').setup({
 --[[ we dont have to write it twice.            ]]
 --[[ ------------------------------------------ ]]
   { "BirdeeHub/lze", },
+  { "BirdeeHub/lzextras", },
   { "stevearc/oil.nvim", },
   { 'joshdick/onedark.vim', },
   { 'nvim-tree/nvim-web-devicons', },
   { 'nvim-lua/plenary.nvim', },
   { 'tpope/vim-repeat', },
+  { 'rcarriga/nvim-notify', },
 
   { 'nvim-treesitter/nvim-treesitter-textobjects', opt = true, },
   { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate', opt = true, },
