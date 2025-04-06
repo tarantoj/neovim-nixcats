@@ -552,6 +552,8 @@
       # and additionally output the original as default.
       packages = utils.mkAllWithDefault defaultPackage;
 
+      formatter = pkgs.alejandra;
+
       # choose your package for devShell
       # and add whatever else you want in it.
       devShells = {
