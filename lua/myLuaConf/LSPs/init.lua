@@ -98,6 +98,50 @@ require('lze').load {
     },
   },
   { 'ts_ls', lsp = {} },
+  { 'tailwindcss', lsp = {} },
+  { 'basedpyright', lsp = {} },
+  { 'terraformls', lsp = {} },
+  { 'tflint', lsp = {} },
+  { 'eslint', lsp = {} },
+  { 'html', lsp = {} },
+  { 'cssls', lsp = {} },
+  {
+    'jsonls',
+    lsp = {
+      settings = {
+        json = {
+          format = { enable = true },
+          schemas = require('schemastore').json.schemas(),
+          validate = { enable = true },
+        },
+      },
+    },
+  },
+  { 'dockerls', lsp = {} },
+  { 'docker_compose_language_service', lsp = {} },
+  { 'taplo', lsp = {} },
+  { 'bashls', lsp = {} },
+  {
+    'yamlls',
+    lsp = {
+      settings = {
+        redhat = { telemetry = { enabled = false } },
+        yaml = {
+          keyOrdering = false,
+          format = { enable = true },
+          validate = true,
+          schemaStore = {
+            -- You must disable built-in schemaStore support if you want to use
+            -- this plugin and its advanced options like `ignore`.
+            enable = false,
+            -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+            url = '',
+          },
+          schemas = require('schemastore').yaml.schemas(),
+        },
+      },
+    },
+  },
   {
     'nixd',
     enabled = catUtils.isNixCats and (nixCats('nix') or nixCats('neonixdev')) or false,
