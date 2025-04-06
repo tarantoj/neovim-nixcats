@@ -175,7 +175,7 @@
         ];
         neonixdev = {
           # also you can do this.
-          inherit (pkgs) nix-doc lua-language-server nixd nil statix;
+          inherit (pkgs) nix-doc lua-language-server nixd nil statix alejandra;
           # and each will be its own sub category
         };
       };
@@ -416,6 +416,9 @@
           markdown = true;
           general = true;
           lint = true;
+          tf = true;
+          js = true;
+          python = true;
           format = true;
           neonixdev = true;
           test = {
