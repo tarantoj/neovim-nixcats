@@ -40,6 +40,11 @@
     #   flake = false;
     # };
 
+    "plugins-roslyn" = {
+      url = "github:seblj/roslyn.nvim";
+      flake = false;
+    };
+
     # neovim-nightly-overlay = {
     #   url = "github:nix-community/neovim-nightly-overlay";
     # };
@@ -175,7 +180,11 @@
           roslyn-ls
           netcoredbg
         ];
-
+        docker = with pkgs; [
+          docker-compose-language-service
+          dockerfile-language-server-nodejs
+          hadolint
+        ];
         # and easily check if they are included in lua
         format = with pkgs; [
           alejandra
@@ -308,6 +317,7 @@
             undotree
             indent-blankline-nvim
             vim-startuptime
+            neogen
             # If it was included in your flake inputs as plugins-hlargs,
             # this would be how to add that plugin in your config.
             # pkgs.neovimPlugins.hlargs

@@ -320,5 +320,18 @@ require('lze').load {
       }
     end,
   },
-  { 'vim-fugitive', cmd={"G"} },
+  { 'vim-fugitive', cmd = { 'G' } },
+  {
+    'neogen',
+    for_cat = 'general.extra',
+    keys = { { '<leader>ng', ":lua require('neogen').generate()<CR>", mode = { 'n' }, desc = '[N]eo[G]enerate' } },
+    after = function(plugin)
+      require('neogen').setup {
+        snippet_engine = 'luasnip',
+        languages = {
+          cs = { template = { annotation_convention = 'xmldoc' } },
+        },
+      }
+    end,
+  },
 }
