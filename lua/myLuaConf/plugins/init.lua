@@ -222,6 +222,7 @@ require('lze').load {
           topdelete = { text = '‾' },
           changedelete = { text = '~' },
         },
+        current_line_blame = true,
         on_attach = function(bufnr)
           local gs = package.loaded.gitsigns
 
