@@ -40,11 +40,6 @@
     #   flake = false;
     # };
 
-    "plugins-roslyn" = {
-      url = "github:seblj/roslyn.nvim";
-      flake = false;
-    };
-
     # neovim-nightly-overlay = {
     #   url = "github:nix-community/neovim-nightly-overlay";
     # };
@@ -265,6 +260,7 @@
         markdown = with pkgs.vimPlugins; [
           markdown-preview-nvim
         ];
+        dotnet = with pkgs.vimPlugins; [roslyn-nvim];
         neonixdev = with pkgs.vimPlugins; [
           lazydev-nvim
         ];

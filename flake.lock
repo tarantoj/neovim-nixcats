@@ -31,27 +31,10 @@
         "type": "github"
       }
     },
-    "plugins-roslyn": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1744134351,
-        "narHash": "sha256-VQYHRD3++0+OU7Eyrfif+k9T+F1vvPv0cSJ9XZBoUtE=",
-        "owner": "seblj",
-        "repo": "roslyn.nvim",
-        "rev": "09541daaefaa61a422a4ae979dcc8d1b5cd37e42",
-        "type": "github"
-      },
-      "original": {
-        "owner": "seblj",
-        "repo": "roslyn.nvim",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
         "nixCats": "nixCats",
-        "nixpkgs": "nixpkgs",
-        "plugins-roslyn": "plugins-roslyn"
+        "nixpkgs": "nixpkgs"
       }
     }
   },
