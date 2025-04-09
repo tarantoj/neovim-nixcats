@@ -22,7 +22,7 @@ require('lze').load {
           -- Conform will run multiple formatters sequentially
           -- python = { "isort", "black" },
           -- Use a sub-list to run only the first available formatter
-          javascript = { { 'prettier', 'prettierd' } },
+          javascript = { 'prettier', 'prettierd', stop_after_first = true },
         },
         format_on_save = {
           -- These options will be passed to conform.format()
