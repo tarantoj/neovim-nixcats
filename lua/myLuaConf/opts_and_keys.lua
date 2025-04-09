@@ -2,20 +2,6 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-if os.getenv('WAYLAND_DISPLAY') and vim.fn.exepath('wl-copy') ~= '' then
-  vim.g.clipboard = {
-    name = 'wl-clipboard',
-    copy = {
-      ['+'] = 'wl-copy',
-      ['*'] = 'wl-copy',
-    },
-    paste = {
-      ['+'] = 'wl-paste',
-      ['*'] = 'wl-paste',
-    },
-    cache_enabled = 1,
-  }
-end
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
@@ -43,14 +29,14 @@ vim.wo.number = true
 vim.o.mouse = 'a'
 
 -- Indent
-vim.o.smarttab = true
+-- vim.o.smarttab = true
 vim.opt.cpoptions:append('I')
 vim.o.expandtab = true
-vim.o.smartindent = true
-vim.o.autoindent = true
-vim.o.tabstop = 4
-vim.o.softtabstop = 4
-vim.o.shiftwidth = 4
+-- vim.o.smartindent = true
+-- vim.o.autoindent = true
+-- vim.o.tabstop = 4
+-- vim.o.softtabstop = 4
+-- vim.o.shiftwidth = 4
 
 -- stops line wrapping from being confusing
 vim.o.breakindent = true
@@ -139,14 +125,7 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 -- vim.o.clipboard = 'unnamedplus'
 
 -- You should instead use these keybindings so that they are still easy to use, but dont conflict
-vim.keymap.set('n', '<leader>y', '"+y', { noremap = true, silent = true, desc = 'Yank to clipboard' })
-vim.keymap.set({ 'v', 'x' }, '<leader>y', '"+y', { noremap = true, silent = true, desc = 'Yank to clipboard' })
-vim.keymap.set(
-  { 'n', 'v', 'x' },
-  '<leader>yy',
-  '"+yy',
-  { noremap = true, silent = true, desc = 'Yank line to clipboard' }
-)
+vim.keymap.set({ 'v', 'x', 'n' }, '<leader>y', '"+y', { noremap = true, silent = true, desc = 'Yank to clipboard' })
 vim.keymap.set(
   { 'n', 'v', 'x' },
   '<leader>Y',

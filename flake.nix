@@ -21,10 +21,6 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixCats.url = "github:BirdeeHub/nixCats-nvim";
 
-    neovim-nightly-overlay = {
-      url = "github:nix-community/neovim-nightly-overlay";
-    };
-
     # see :help nixCats.flake.inputs
     # If you want your plugin to be loaded by the standard overlay,
     # i.e. if it wasnt on nixpkgs, but doesnt have an extra build step.
@@ -39,20 +35,25 @@
     # How to import it into your config is shown farther down in the startupPlugins set.
     # You put it here like this, and then below you would use it with `pkgs.neovimPlugins.hlargs`
 
-    "plugins-roslyn" = {
-      url = "github:seblj/roslyn.nvim";
-      flake = false;
-    };
+    # "plugins-hlargs" = {
+    #   url = "github:m-demare/hlargs.nvim";
+    #   flake = false;
+    # };
 
-    "plugins-easy-dotnet" = {
-      url = "github:GustavEikaas/easy-dotnet.nvim";
-      flake = false;
-    };
+    # neovim-nightly-overlay = {
+    #   url = "github:nix-community/neovim-nightly-overlay";
+    # };
+  };
 
-    "plugins-dotnet" = {
-      url = "github:MoaidHathot/dotnet.nvim";
-      flake = false;
-    };
+  nixConfig = {
+    extra-substituters = [
+      "https://tarantoj.cachix.org"
+      "https://nix-community.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "tarantoj.cachix.org-1:nZLdEC/kv8a7dGRU5lupTrByi3GrazGSb+xtptPRp8o="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    ];
   };
 
   # see :help nixCats.flake.outputs
@@ -71,10 +72,6 @@
     # will not apply to module imports
     # as that will have your system values
     extra_pkg_config = {
-      permittedInsecurePackages = [
-        "dotnet-sdk-6.0.428"
-      ];
-
       # allowUnfree = true;
     };
     # management of the system variable is one of the harder parts of using flakes.
@@ -86,10 +83,6 @@
     # this allows you to use ${pkgs.system} whenever you want in those sections
     # without fear.
 
-    # sometimes our overlays require a ${system} to access the overlay.
-    # Your dependencyOverlays can either be lists
-    # in a set of ${system}, or simply a list.
-    # the nixCats builder function will accept either.
     # see :help nixCats.flake.outputs.overlays
     dependencyOverlays =
       /*
@@ -120,7 +113,7 @@
       categories,
       extra,
       name,
-      mkNvimPlugin,
+      mkPlugin,
       ...
     } @ packageDef: {
       # to define and use a new category, simply add a new list to a set here,
@@ -150,7 +143,6 @@
         ];
         # these names are arbitrary.
         lint = with pkgs; [
-          sqlfluff
         ];
         # but you can choose which ones you want
         # per nvim package you export
@@ -198,7 +190,7 @@
         ];
         neonixdev = {
           # also you can do this.
-          inherit (pkgs) nix-doc lua-language-server nixd nil statix;
+          inherit (pkgs) nix-doc lua-language-server nixd nil statix alejandra;
           # and each will be its own sub category
         };
       };
@@ -213,10 +205,10 @@
           # (always isnt a special name, just the one I chose for this subcategory)
           always = [
             lze
+            lzextras
             vim-repeat
             plenary-nvim
-            fugitive
-            rhubarb
+            nvim-notify
           ];
           extra = [
             oil-nvim
@@ -229,7 +221,7 @@
         # You can retreive information from the
         # packageDefinitions of the package this was packaged with.
         # :help nixCats.flake.outputs.categoryDefinitions.scheme
-        themer = with pkgs.vimPlugins; (
+        themer = with pkgs.vimPlugins;
           builtins.getAttr (categories.colorscheme or "tokyonight") {
             # Theme switcher without creating a new category
             "onedark" = onedark-nvim;
@@ -237,8 +229,7 @@
             "catppuccin-mocha" = catppuccin-nvim;
             "tokyonight" = tokyonight-nvim;
             "tokyonight-day" = tokyonight-nvim;
-          }
-        );
+          };
         # This is obviously a fairly basic usecase for this, but still nice.
       };
 
@@ -269,16 +260,9 @@
         markdown = with pkgs.vimPlugins; [
           markdown-preview-nvim
         ];
+        dotnet = with pkgs.vimPlugins; [roslyn-nvim];
         neonixdev = with pkgs.vimPlugins; [
           lazydev-nvim
-        ];
-        js = with pkgs.vimPlugins; [typescript-tools-nvim];
-        dotnet = with pkgs.vimPlugins; [
-          (pkgs.neovimPlugins.easy-dotnet.overrideAttrs {dependencies = [pkgs.vimPlugins.plenary-nvim pkgs.vimPlugins.telescope-nvim pkgs.vimPlugins.fzf-lua];})
-          (
-            pkgs.neovimPlugins.dotnet.overrideAttrs {dependencies = [pkgs.vimPlugins.plenary-nvim pkgs.vimPlugins.telescope-nvim];}
-          )
-          pkgs.neovimPlugins.roslyn
         ];
         general = {
           cmp = with pkgs.vimPlugins; [
@@ -298,10 +282,7 @@
           ];
           treesitter = with pkgs.vimPlugins; [
             nvim-treesitter-textobjects
-            rainbow-delimiters-nvim
-            nvim-treesitter-context
             nvim-treesitter.withAllGrammars
-            nvim-ts-autotag
             # This is for if you only want some of the grammars
             # (nvim-treesitter.withPlugins (
             #   plugins: with plugins; [
@@ -309,14 +290,6 @@
             #     lua
             #   ]
             # ))
-          ];
-          ai = with pkgs.vimPlugins; [
-            avante-nvim
-            copilot-lua
-            render-markdown-nvim
-            img-clip-nvim
-            dressing-nvim
-            nui-nvim
           ];
           telescope = with pkgs.vimPlugins; [
             telescope-fzf-native-nvim
@@ -337,7 +310,6 @@
             # lualine-lsp-progress
             which-key-nvim
             comment-nvim
-            nvim-ts-context-commentstring
             undotree
             indent-blankline-nvim
             vim-startuptime
@@ -391,7 +363,7 @@
       # in your lua config via
       # vim.g.python3_host_prog
       # or run from nvim terminal via :!<packagename>-python3
-      extraPython3Packages = {
+      python3.libraries = {
         test = _: [];
       };
       # populates $LUA_PATH and $LUA_CPATH
@@ -412,7 +384,6 @@
         debug = [
           ["debug" "default"]
         ];
-        dotnet = [["default"]];
         go = [
           ["debug" "go"] # yes it has to be a list of lists
         ];
@@ -432,10 +403,16 @@
     packageDefinitions = {
       # the name here is the name of the package
       # and also the default command name for it.
-      nixCats = {pkgs, ...} @ misc: {
+      nixCats = {
+        pkgs,
+        name,
+        ...
+      } @ misc: {
         # these also recieve our pkgs variable
         # see :help nixCats.flake.outputs.packageDefinitions
         settings = {
+          suffix-path = true;
+          suffix-LD = true;
           # The name of the package, and the default launch name,
           # and the name of the .desktop file, is `nixCats`,
           # or, whatever you named the package definition in the packageDefinitions set.
@@ -447,22 +424,23 @@
           # OR see :help nixCats.flake.outputs.settings for all of the settings available
           wrapRc = true;
           configDirName = "nixCats-nvim";
-          neovim-unwrapped = inputs.neovim-nightly-overlay.packages.${pkgs.system}.neovim;
+          # neovim-unwrapped = inputs.neovim-nightly-overlay.packages.${pkgs.system}.neovim;
+          hosts.python3.enable = true;
+          hosts.node.enable = true;
         };
         # enable the categories you want from categoryDefinitions
         categories = {
           markdown = true;
           general = true;
           lint = true;
+          tf = true;
+          js = true;
+          python = true;
           format = true;
           neonixdev = true;
           test = {
             subtest1 = true;
           };
-          dotnet = true;
-          tf = true;
-          js = true;
-          python = true;
 
           # enabling this category will enable the go category,
           # and ALSO debug.go and debug.default due to our extraCats in categoryDefinitions.
@@ -481,12 +459,15 @@
           # there is also an extra table you can use to pass extra stuff.
           # but you can pass all the same stuff in any of these sets and access it in lua
           nixdExtras = {
-            nixpkgs = nixpkgs;
+            nixpkgs = ''import ${pkgs.path} {}'';
+            # or inherit nixpkgs;
           };
         };
       };
       regularCats = {pkgs, ...} @ misc: {
         settings = {
+          suffix-path = true;
+          suffix-LD = true;
           # IMPURE PACKAGE: normal config reload
           # include same categories as main config,
           # will load from vim.fn.stdpath('config')
@@ -502,7 +483,7 @@
           aliases = ["testCat"];
 
           # If you wanted nightly, uncomment this, and the flake input.
-          neovim-unwrapped = inputs.neovim-nightly-overlay.packages.${pkgs.system}.neovim;
+          # neovim-unwrapped = inputs.neovim-nightly-overlay.packages.${pkgs.system}.neovim;
           # Probably add the cache stuff they recommend too.
         };
         categories = {
@@ -511,13 +492,11 @@
           neonixdev = true;
           lint = true;
           format = true;
-          dotnet = true;
           test = true;
-          js = true;
-          go = true; # <- disabled but you could enable it with override or module on install
+          # go = true; # <- disabled but you could enable it with override or module on install
           lspDebugMode = false;
           themer = true;
-          colorscheme = "catppuccin";
+          colorscheme = "tokyonight";
         };
         extra = {
           # nixCats.extra("path.to.val") will perform vim.tbl_get(nixCats.extra, "path" "to" "val")
@@ -526,7 +505,8 @@
           # even though path.to.cat would be an indexing error in that case.
           # this is to mimic the concept of "subcategories" but may get in the way of just fetching values.
           nixdExtras = {
-            nixpkgs = nixpkgs;
+            nixpkgs = ''import ${pkgs.path} {}'';
+            # or inherit nixpkgs;
           };
           # yes even tortured inputs work.
           theBestCat = "says meow!!";
@@ -606,6 +586,7 @@
     // (let
       # we also export a nixos module to allow reconfiguration from configuration.nix
       nixosModule = utils.mkNixosModules {
+        moduleNamespace = [defaultPackageName];
         inherit
           defaultPackageName
           dependencyOverlays
@@ -618,6 +599,7 @@
       };
       # and the same for home manager
       homeModule = utils.mkHomeModules {
+        moduleNamespace = [defaultPackageName];
         inherit
           defaultPackageName
           dependencyOverlays

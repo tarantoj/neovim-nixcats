@@ -7,6 +7,19 @@ end
 -- this is just an example, feel free to do a better job!
 vim.cmd.colorscheme(colorschemeName)
 
+local ok, notify = pcall(require, 'notify')
+if ok then
+  notify.setup {
+    on_open = function(win)
+      vim.api.nvim_win_set_config(win, { focusable = false })
+    end,
+  }
+  vim.notify = notify
+  vim.keymap.set('n', '<Esc>', function()
+    notify.dismiss { silent = true }
+  end, { desc = 'dismiss notify popup and clear hlsearch' })
+end
+
 -- NOTE: you can check if you included the category with the thing wherever you want.
 if nixCats('general.extra') then
   -- I didnt want to bother with lazy loading this.
@@ -18,13 +31,15 @@ if nixCats('general.extra') then
   vim.g.loaded_netrwPlugin = 1
   require('oil').setup {
     default_file_explorer = true,
+    view_options = {
+      show_hidden = true,
+    },
     columns = {
       'icon',
       'permissions',
       'size',
       -- "mtime",
     },
-    view_options = { show_hidden = true },
     keymaps = {
       ['g?'] = 'actions.show_help',
       ['<CR>'] = 'actions.select',
@@ -52,20 +67,6 @@ require('lze').load {
   { import = 'myLuaConf.plugins.telescope' },
   { import = 'myLuaConf.plugins.treesitter' },
   { import = 'myLuaConf.plugins.completion' },
-  { import = 'myLuaConf.plugins.ai' },
-  {
-    'lazydev.nvim',
-    for_cat = 'neonixdev',
-    cmd = { 'LazyDev' },
-    ft = 'lua',
-    after = function(plugin)
-      require('lazydev').setup {
-        library = {
-          { words = { 'nixCats' }, path = (require('nixCats').nixCatsPath or '') .. '/lua' },
-        },
-      }
-    end,
-  },
   {
     'markdown-preview.nvim',
     -- NOTE: for_cat is a custom handler that just sets enabled value for us,
@@ -102,18 +103,11 @@ require('lze').load {
     end,
   },
   {
-    'nvim-ts-context-commentstring',
-    for_cat = 'general.extra',
-    dep_of = 'comment.nvim',
-  },
-  {
     'comment.nvim',
     for_cat = 'general.extra',
     event = 'DeferredUIEnter',
     after = function(plugin)
-      require('Comment').setup {
-        pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
-      }
+      require('Comment').setup()
     end,
   },
   {
@@ -121,33 +115,7 @@ require('lze').load {
     for_cat = 'general.extra',
     event = 'DeferredUIEnter',
     after = function(plugin)
-      -- require('ibl').setup()
-      local highlight = {
-        'RainbowRed',
-        'RainbowYellow',
-        'RainbowBlue',
-        'RainbowOrange',
-        'RainbowGreen',
-        'RainbowViolet',
-        'RainbowCyan',
-      }
-      local hooks = require('ibl.hooks')
-      -- create the highlight groups in the highlight setup hook, so they are reset
-      -- every time the colorscheme changes
-      hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
-        vim.api.nvim_set_hl(0, 'RainbowRed', { fg = '#E06C75' })
-        vim.api.nvim_set_hl(0, 'RainbowYellow', { fg = '#E5C07B' })
-        vim.api.nvim_set_hl(0, 'RainbowBlue', { fg = '#61AFEF' })
-        vim.api.nvim_set_hl(0, 'RainbowOrange', { fg = '#D19A66' })
-        vim.api.nvim_set_hl(0, 'RainbowGreen', { fg = '#98C379' })
-        vim.api.nvim_set_hl(0, 'RainbowViolet', { fg = '#C678DD' })
-        vim.api.nvim_set_hl(0, 'RainbowCyan', { fg = '#56B6C2' })
-      end)
-
-      vim.g.rainbow_delimiters = { highlight = highlight }
-      require('ibl').setup { scope = { highlight = highlight } }
-
-      hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
+      require('ibl').setup()
     end,
   },
   {
@@ -160,26 +128,13 @@ require('lze').load {
     end,
   },
   {
-    'neogen',
-    for_cat = 'general.extra',
-    keys = { { '<leader>ng', ":lua require('neogen').generate()<CR>", mode = { 'n' }, desc = '[N]eo[G]enerate' } },
-    after = function(plugin)
-      require('neogen').setup {
-        snippet_engine = 'luasnip',
-        languages = {
-          cs = { template = { annotation_convention = 'xmldoc' } },
-        },
-      }
-    end,
-  },
-  {
     'vim-startuptime',
     for_cat = 'general.extra',
     cmd = { 'StartupTime' },
     before = function(_)
       vim.g.startuptime_event_width = 0
       vim.g.startuptime_tries = 10
-      vim.g.startuptime_exe_path = require('nixCatsUtils').packageBinPath
+      vim.g.startuptime_exe_path = nixCats.packageBinPath
     end,
   },
   {
@@ -217,7 +172,7 @@ require('lze').load {
       require('lualine').setup {
         options = {
           icons_enabled = false,
-          theme = 'auto',
+          theme = colorschemeName,
           component_separators = '|',
           section_separators = '',
         },
@@ -365,80 +320,18 @@ require('lze').load {
       }
     end,
   },
+  { 'vim-fugitive', cmd = { 'G' } },
   {
-    'easy-dotnet',
-    for_cat = 'dotnet',
-    -- event = 'DeferredUIEnter',
-    cmd = 'Dotnet',
-    ft = 'cs',
+    'neogen',
+    for_cat = 'general.extra',
+    keys = { { '<leader>ng', ":lua require('neogen').generate()<CR>", mode = { 'n' }, desc = '[N]eo[G]enerate' } },
     after = function(plugin)
-      require('easy-dotnet').setup()
-    end,
-  },
-  {
-    'dotnet',
-    for_cat = 'dotnet',
-    -- event = 'DeferredUIEnter',
-    cmd = 'DotnetUI',
-    ft = 'cs',
-    after = function(plugin)
-      require('dotnet').setup()
-    end,
-  },
-  {
-    'image.nvim',
-    ft = 'markdown',
-    after = function()
-      require('image').setup {
-        processor = 'magick_cli',
-        integrations = {
-          markdown = {
-            enabled = true,
-            clear_in_insert_mode = false,
-            download_remote_images = true,
-            only_render_image_at_cursor = false,
-            floating_windows = true, -- if true, images will be rendered in floating markdown windows
-            filetypes = { 'markdown', 'vimwiki', 'noice', 'cmd_docs' }, -- markdown extensions (ie. quarto) can go here
-          },
+      require('neogen').setup {
+        snippet_engine = 'luasnip',
+        languages = {
+          cs = { template = { annotation_convention = 'xmldoc' } },
         },
       }
     end,
-  },
-  {
-    'neo-tree.nvim',
-    for_cat = 'general.extra',
-    cmd = 'Neotree',
-    keys = {
-      {
-        '<leader>fe',
-        function()
-          require('neo-tree.command').execute { toggle = true }
-        end,
-        desc = 'Explorer NeoTree (Root Dir)',
-      },
-      {
-        '<leader>fE',
-        function()
-          require('neo-tree.command').execute { toggle = true, dir = vim.uv.cwd() }
-        end,
-        desc = 'Explorer NeoTree (cwd)',
-      },
-      { '<leader>e', '<leader>fe', desc = 'Explorer NeoTree (Root Dir)', remap = true },
-      { '<leader>E', '<leader>fE', desc = 'Explorer NeoTree (cwd)', remap = true },
-      {
-        '<leader>ge',
-        function()
-          require('neo-tree.command').execute { source = 'git_status', toggle = true }
-        end,
-        desc = 'Git Explorer',
-      },
-      {
-        '<leader>be',
-        function()
-          require('neo-tree.command').execute { source = 'buffers', toggle = true }
-        end,
-        desc = 'Buffer Explorer',
-      },
-    },
   },
 }

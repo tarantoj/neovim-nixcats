@@ -14,10 +14,6 @@ require('lze').load {
         -- markdown = {'vale',},
         -- javascript = { 'eslint' },
         -- typescript = { 'eslint' },
-        sql = { 'sqlfluff' },
-        terraform = { 'tfsec' },
-        dockerfile = { 'hadolint' },
-        ['yaml.github'] = { 'actionlint' },
       }
 
       vim.api.nvim_create_autocmd({ 'BufWritePost' }, {

@@ -1,59 +1,57 @@
----packadd + after/plugin
----@type fun(names: string[]|string)
-local load_w_after_plugin = require('nixCatsUtils.lzUtils').make_load_with_after { 'plugin' }
-
--- NOTE: packadd doesnt load after directories.
--- hence, the above function that you can get from luaUtils that exists to make that easy.
+local load_w_after = function(name)
+  vim.cmd.packadd(name)
+  vim.cmd.packadd(name .. '/after')
+end
 
 return {
   {
     'cmp-buffer',
     for_cat = 'general.cmp',
     on_plugin = { 'nvim-cmp' },
-    load = load_w_after_plugin,
+    load = load_w_after,
   },
   {
     'cmp-cmdline',
     for_cat = 'general.cmp',
     on_plugin = { 'nvim-cmp' },
-    load = load_w_after_plugin,
+    load = load_w_after,
   },
   {
     'cmp-cmdline-history',
     for_cat = 'general.cmp',
     on_plugin = { 'nvim-cmp' },
-    load = load_w_after_plugin,
+    load = load_w_after,
   },
   {
     'cmp-nvim-lsp',
     for_cat = 'general.cmp',
     on_plugin = { 'nvim-cmp' },
     dep_of = { 'nvim-lspconfig' },
-    load = load_w_after_plugin,
+    load = load_w_after,
   },
   {
     'cmp-nvim-lsp-signature-help',
     for_cat = 'general.cmp',
     on_plugin = { 'nvim-cmp' },
-    load = load_w_after_plugin,
+    load = load_w_after,
   },
   {
     'cmp-nvim-lua',
     for_cat = 'general.cmp',
     on_plugin = { 'nvim-cmp' },
-    load = load_w_after_plugin,
+    load = load_w_after,
   },
   {
     'cmp-path',
     for_cat = 'general.cmp',
     on_plugin = { 'nvim-cmp' },
-    load = load_w_after_plugin,
+    load = load_w_after,
   },
   {
     'cmp_luasnip',
     for_cat = 'general.cmp',
     on_plugin = { 'nvim-cmp' },
-    load = load_w_after_plugin,
+    load = load_w_after,
   },
   {
     'friendly-snippets',
@@ -64,7 +62,7 @@ return {
     'lspkind.nvim',
     for_cat = 'general.cmp',
     dep_of = { 'nvim-cmp' },
-    load = load_w_after_plugin,
+    load = load_w_after,
   },
   {
     'luasnip',
@@ -73,7 +71,6 @@ return {
     after = function(plugin)
       local luasnip = require('luasnip')
       require('luasnip.loaders.from_vscode').lazy_load()
-      require('luasnip.loaders.from_vscode').lazy_load {}
       luasnip.filetype_extend('typescript', { 'tsdoc' })
       luasnip.filetype_extend('javascript', { 'jsdoc' })
       luasnip.filetype_extend('lua', { 'luadoc' })

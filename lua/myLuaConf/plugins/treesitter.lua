@@ -12,14 +12,10 @@ return {
     load = function(name)
       vim.cmd.packadd(name)
       vim.cmd.packadd('nvim-treesitter-textobjects')
-      vim.cmd.packadd('rainbow-delimiters.nvim')
-      vim.cmd.packadd('nvim-treesitter-context')
-      vim.cmd.packadd('nvim-ts-autotag')
     end,
     after = function(plugin)
       -- [[ Configure Treesitter ]]
       -- See `:help nvim-treesitter`
-
       require('nvim-treesitter.configs').setup {
         highlight = { enable = true },
         indent = { enable = false },
@@ -77,8 +73,6 @@ return {
           },
         },
       }
-
-      require('nvim-ts-autotag').setup()
     end,
   },
 }
