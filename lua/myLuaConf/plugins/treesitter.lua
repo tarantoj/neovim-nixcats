@@ -12,6 +12,7 @@ return {
     load = function(name)
       vim.cmd.packadd(name)
       vim.cmd.packadd('nvim-treesitter-textobjects')
+      vim.cmd.packadd('nvim-ts-autotag')
     end,
     after = function(plugin)
       -- [[ Configure Treesitter ]]
@@ -73,6 +74,7 @@ return {
           },
         },
       }
+      require('nvim-ts-autotag').setup {}
     end,
   },
 }
