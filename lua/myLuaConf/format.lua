@@ -48,6 +48,7 @@ require('lze').load {
           graphql = { 'prettier', 'prettierd', stop_after_first = true },
           json = { 'prettier', 'prettierd', stop_after_first = true },
           css = { 'prettier', 'prettierd', stop_after_first = true },
+          nix = { 'alejandra' },
         },
         format_on_save = {
           -- These options will be passed to conform.format()
