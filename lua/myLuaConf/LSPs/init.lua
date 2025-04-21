@@ -92,7 +92,7 @@ require('lze').load {
   {
     'nil_ls',
     -- mason doesn't have nixd
-    enabled = not catUtils.isNixCats,
+    -- enabled = not catUtils.isNixCats,
     lsp = {
       filetypes = { 'nix' },
     },
