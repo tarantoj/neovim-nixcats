@@ -112,7 +112,7 @@ return {
           preset = 'luasnip',
         },
         sources = {
-          default = { 'lsp', 'path', 'snippets', 'buffer', 'omni' },
+          default = { 'lsp', 'path', 'snippets', 'buffer' },
           providers = {
             path = {
               score_offset = 50,
