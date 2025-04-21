@@ -16,6 +16,11 @@ return {
     dep_of = { 'cmp-cmdline' },
   },
   {
+    'friendly-snippets',
+    for_cat = 'general.blink',
+    dep_of = { 'blink.cmp' },
+  },
+  {
     'luasnip',
     for_cat = 'general.blink',
     dep_of = { 'blink.cmp' },
