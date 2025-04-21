@@ -12,6 +12,9 @@ vim.g.maplocalleader = ' '
 vim.opt.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
+vim.o.spell = true
+vim.o.spelllang = 'en_au'
+
 -- Set highlight on search
 vim.opt.hlsearch = true
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
