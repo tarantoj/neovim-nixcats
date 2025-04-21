@@ -44,6 +44,11 @@ return {
     on_plugin = { 'blink.cmp' },
   },
   {
+    'blink-cmp-git',
+    for_cat = 'general.blink',
+    on_plugin = { 'blink.cmp' },
+  },
+  {
     'blink.cmp',
     for_cat = 'general.blink',
     event = 'DeferredUIEnter',
@@ -112,7 +117,7 @@ return {
           preset = 'luasnip',
         },
         sources = {
-          default = { 'lsp', 'path', 'snippets', 'buffer' },
+          default = { 'lsp', 'path', 'snippets', 'buffer', 'git' },
           providers = {
             path = {
               score_offset = 50,
@@ -122,6 +127,13 @@ return {
             },
             snippets = {
               score_offset = 40,
+            },
+            git = {
+              module = 'blink-cmp-git',
+              name = 'Git',
+              opts = {
+                -- options for the blink-cmp-git
+              },
             },
             cmp_cmdline = {
               name = 'cmp_cmdline',
