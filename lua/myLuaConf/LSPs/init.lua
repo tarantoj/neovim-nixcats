@@ -26,6 +26,9 @@ require('lze').load {
     -- define a function to run over all type(plugin.lsp) == table
     -- when their filetype trigger loads them
     lsp = function(plugin)
+      local config = plugin.lsp or {}
+      config.capabilities = require('blink.cmp').get_lsp_capabilities(config.capabilities, true)
+
       vim.lsp.config(plugin.name, plugin.lsp or {})
       vim.lsp.enable(plugin.name)
     end,
@@ -211,7 +214,7 @@ require('lze').load {
       require('roslyn').setup {
         exe = 'Microsoft.CodeAnalysis.LanguageServer',
         config = {
-          capabilities = require('myLuaConf.LSPs.caps-on_attach').get_capabilities('roslyn'),
+          -- capabilities = require('myLuaConf.LSPs.on_attach').get_capabilities('roslyn'),
           settings = {
             ['csharp|completion'] = {
               ['dotnet_provide_regex_completions'] = true,
