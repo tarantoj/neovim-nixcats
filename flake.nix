@@ -265,21 +265,31 @@
           lazydev-nvim
         ];
         general = {
-          cmp = with pkgs.vimPlugins; [
-            # cmp stuff
-            nvim-cmp
+          blink = with pkgs.vimPlugins; [
             luasnip
-            friendly-snippets
-            cmp_luasnip
-            cmp-buffer
-            cmp-path
-            cmp-nvim-lua
-            cmp-nvim-lsp
             cmp-cmdline
-            cmp-nvim-lsp-signature-help
-            cmp-cmdline-history
-            lspkind-nvim
+            blink-cmp
+            blink-compat
+            colorful-menu-nvim
+            friendly-snippets
+            blink-cmp-git
           ];
+
+          # cmp = with pkgs.vimPlugins; [
+          #   # cmp stuff
+          #   nvim-cmp
+          #   luasnip
+          #   friendly-snippets
+          #   cmp_luasnip
+          #   cmp-buffer
+          #   cmp-path
+          #   cmp-nvim-lua
+          #   cmp-nvim-lsp
+          #   cmp-cmdline
+          #   cmp-nvim-lsp-signature-help
+          #   cmp-cmdline-history
+          #   lspkind-nvim
+          # ];
           treesitter = with pkgs.vimPlugins; [
             nvim-treesitter-textobjects
             nvim-treesitter.withAllGrammars

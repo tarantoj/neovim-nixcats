@@ -2,7 +2,20 @@ local catUtils = require('nixCatsUtils')
 if catUtils.isNixCats and nixCats('lspDebugMode') then
   vim.lsp.set_log_level('debug')
 end
--- this is how to use the lsp handler.
+require('lze').h.lsp.set_ft_fallback(function(name)
+  local lspcfg = nixCats.pawsible { 'allPlugins', 'opt', 'nvim-lspconfig' }
+    or nixCats.pawsible { 'allPlugins', 'start', 'nvim-lspconfig' }
+  if not lspcfg then
+    local matches = vim.api.nvim_get_runtime_file('pack/*/{start,opt}/nvim-lspconfig', false)
+    lspcfg = assert(matches[1], 'nvim-lspconfig not found!')
+  end
+  local ok, cfg = pcall(dofile, lspcfg .. '/lsp/' .. name .. '.lua')
+  if not ok then
+    ok, cfg = pcall(dofile, lspcfg .. '/lua/lspconfig/configs/' .. name .. '.lua')
+  end
+  return (ok and cfg or {}).filetypes or {}
+end)
+-- file uses lzextras.lsp handler
 require('lze').load {
   {
     'nvim-lspconfig',
@@ -13,11 +26,16 @@ require('lze').load {
     -- define a function to run over all type(plugin.lsp) == table
     -- when their filetype trigger loads them
     lsp = function(plugin)
-      -- in this case, just extend some default arguments with the ones provided in the lsp table
-      require('lspconfig')[plugin.name].setup(vim.tbl_extend('force', {
-        capabilities = require('myLuaConf.LSPs.caps-on_attach').get_capabilities(plugin.name),
-        on_attach = require('myLuaConf.LSPs.caps-on_attach').on_attach,
-      }, plugin.lsp or {}))
+      local config = plugin.lsp or {}
+      config.capabilities = require('blink.cmp').get_lsp_capabilities(config.capabilities, true)
+
+      vim.lsp.config(plugin.name, plugin.lsp or {})
+      vim.lsp.enable(plugin.name)
+    end,
+    before = function(_)
+      vim.lsp.config('*', {
+        on_attach = require('myLuaConf.LSPs.on_attach'),
+      })
     end,
   },
   {
@@ -92,7 +110,7 @@ require('lze').load {
   {
     'nil_ls',
     -- mason doesn't have nixd
-    enabled = not catUtils.isNixCats,
+    -- enabled = not catUtils.isNixCats,
     lsp = {
       filetypes = { 'nix' },
     },
@@ -196,7 +214,7 @@ require('lze').load {
       require('roslyn').setup {
         exe = 'Microsoft.CodeAnalysis.LanguageServer',
         config = {
-          capabilities = require('myLuaConf.LSPs.caps-on_attach').get_capabilities('roslyn'),
+          -- capabilities = require('myLuaConf.LSPs.on_attach').get_capabilities('roslyn'),
           settings = {
             ['csharp|completion'] = {
               ['dotnet_provide_regex_completions'] = true,
