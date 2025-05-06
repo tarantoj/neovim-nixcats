@@ -33,9 +33,15 @@ require('lze').load {
       vim.lsp.enable(plugin.name)
     end,
     before = function(_)
-      vim.lsp.config('*', {
-        on_attach = require('myLuaConf.LSPs.on_attach'),
+      vim.api.nvim_create_autocmd('LspAttach', {
+        group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+        callback = function(ev)
+          require('myLuaConf.LSPs.on_attach')({}, ev.buf)
+        end,
       })
+      -- vim.lsp.config('*', {
+      --   on_attach = require('myLuaConf.LSPs.on_attach'),
+      -- })
     end,
   },
   {
