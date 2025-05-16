@@ -113,6 +113,8 @@ require('lze').load {
       filetypes = { 'nix' },
     },
   },
+
+  { 'roslyn_ls', lsp = {} },
   {
     'nil_ls',
     -- mason doesn't have nixd
