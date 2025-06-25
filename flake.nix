@@ -212,6 +212,7 @@
           ];
           extra = [
             oil-nvim
+            trouble-nvim
             nvim-web-devicons
             SchemaStore-nvim
             neo-tree-nvim
