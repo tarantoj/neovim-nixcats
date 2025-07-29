@@ -1,4 +1,5 @@
 return {
+  { 'neotest-vitest', dep_of = 'neotest' },
   {
     'neotest',
     for_cat = 'general.extra',

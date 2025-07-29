@@ -31,8 +31,5 @@ end
 if nixCats('format') then
   require('myLuaConf.format')
 end
-if nixCats('ai') then
-  require('myLuaConf.ai')
-end
 -- NOTE: I didnt actually include any linters or formatters in this configuration,
 -- but it is enough to serve as an example.

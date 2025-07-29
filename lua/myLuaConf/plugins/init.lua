@@ -68,6 +68,7 @@ require('lze').load {
   { import = 'myLuaConf.plugins.treesitter' },
   { import = 'myLuaConf.plugins.completion' },
   { import = 'myLuaConf.plugins.test' },
+  { import = 'myLuaConf.plugins.ai' },
   {
     'markdown-preview.nvim',
     -- NOTE: for_cat is a custom handler that just sets enabled value for us,
