@@ -303,6 +303,15 @@
             #   ]
             # ))
           ];
+          ai = with pkgs.vimPlugins; [
+            avante-nvim
+            copilot-lua
+            render-markdown-nvim
+            img-clip-nvim
+            dressing-nvim
+            nui-nvim
+          ];
+
           telescope = with pkgs.vimPlugins; [
             telescope-fzf-native-nvim
             telescope-ui-select-nvim
