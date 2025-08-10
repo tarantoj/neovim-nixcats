@@ -125,6 +125,7 @@ require('lze').load {
   },
   { 'ts_ls', lsp = {} },
   { 'tailwindcss', lsp = {} },
+  { 'biome', lsp = {} },
   { 'basedpyright', lsp = {} },
   { 'terraformls', lsp = {} },
   { 'tflint', lsp = {} },
