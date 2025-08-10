@@ -168,8 +168,10 @@
         ];
         js = with pkgs; [
           typescript
+          typescript-language-server
           eslint
           tailwindcss-language-server
+          biome
         ];
         dotnet = with pkgs; [
           roslyn-ls
