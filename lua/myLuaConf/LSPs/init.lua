@@ -124,7 +124,7 @@ require('lze').load {
     },
   },
   { 'ts_ls', lsp = {} },
-  -- { 'tailwindcss', lsp = {} },
+  { 'tailwindcss', lsp = {} },
   { 'basedpyright', lsp = {} },
   { 'terraformls', lsp = {} },
   { 'tflint', lsp = {} },
