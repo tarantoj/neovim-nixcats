@@ -1,3 +1,4 @@
+require('tokyonight').setup { style = 'night' }
 local colorschemeName = nixCats('colorscheme')
 if not require('nixCatsUtils').isNixCats then
   colorschemeName = 'onedark'
