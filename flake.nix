@@ -169,6 +169,7 @@
         js = with pkgs; [
           typescript
           typescript-language-server
+          vtsls
           eslint
           tailwindcss-language-server
           biome
