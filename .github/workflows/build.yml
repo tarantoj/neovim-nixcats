@@ -20,5 +20,11 @@ jobs:
         with:
           extra_nix_config: |
             experimental-features = nix-command flakes
+      - name: Setup cachix
+        uses: cachix/cachix-action@v16
+        with:
+          name: tarantoj
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+
       - name: Build nix packages
         run: nix build --accept-flake-config
