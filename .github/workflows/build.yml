@@ -15,11 +15,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
-      - name: Install nix
-        uses: cachix/install-nix-action@v31
-        with:
-          extra_nix_config: |
-            experimental-features = nix-command flakes
+      - uses: DeterminateSystems/determinate-nix-action@v3
       - name: Setup cachix
         uses: cachix/cachix-action@v16
         with:
