@@ -179,6 +179,7 @@ require('lze').load {
   { 'docker_compose_language_service', lsp = {} },
   { 'taplo', lsp = {} },
   { 'bashls', lsp = {} },
+  { 'rust_analyzer' },
   {
     'yamlls',
     lsp = {
