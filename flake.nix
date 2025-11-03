@@ -133,7 +133,7 @@
           fd
           vscode-langservers-extracted
           yaml-language-server
-          taplo-lsp
+          taplo
           bash-language-server
           shellcheck
           shfmt
