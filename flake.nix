@@ -43,6 +43,10 @@
     # neovim-nightly-overlay = {
     #   url = "github:nix-community/neovim-nightly-overlay";
     # };
+    plugins-treesitter-textobjects = {
+      url = "github:nvim-treesitter/nvim-treesitter-textobjects/main";
+      flake = false;
+    };
   };
 
   nixConfig = {
@@ -131,6 +135,7 @@
           universal-ctags
           ripgrep
           fd
+          tree-sitter
           vscode-langservers-extracted
           yaml-language-server
           taplo
@@ -295,7 +300,7 @@
           #   lspkind-nvim
           # ];
           treesitter = with pkgs.vimPlugins; [
-            nvim-treesitter-textobjects
+            pkgs.neovimPlugins.treesitter-textobjects
             nvim-treesitter.withAllGrammars
             nvim-ts-autotag
             # This is for if you only want some of the grammars
