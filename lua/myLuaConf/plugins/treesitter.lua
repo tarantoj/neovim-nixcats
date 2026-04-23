@@ -25,20 +25,6 @@ return {
         return true
       end
 
-      require('nvim-treesitter').setup {
-        highlight = { enable = true },
-        indent = { enable = false },
-        incremental_selection = {
-          enable = true,
-          keymaps = {
-            init_selection = '<c-space>',
-            node_incremental = '<c-space>',
-            scope_incremental = '<c-s>',
-            node_decremental = '<M-space>',
-          },
-        },
-      }
-
       local installable_parsers = require('nvim-treesitter').get_available()
       vim.api.nvim_create_autocmd('FileType', {
         callback = function(args)
