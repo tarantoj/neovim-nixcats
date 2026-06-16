@@ -331,8 +331,9 @@ require('lze').load {
       }
     end,
   },
-  { 'vim-fugitive', dep_of = 'vim-rhubarb' },
+  { 'vim-fugitive', dep_of = { 'vim-rhubarb', 'fugitive-azure-devops' } },
   { 'vim-rhubarb' },
+  { 'fugitive-azure-devops' },
   {
     'neogen',
     for_cat = 'general.extra',

@@ -35,10 +35,10 @@
     # How to import it into your config is shown farther down in the startupPlugins set.
     # You put it here like this, and then below you would use it with `pkgs.neovimPlugins.hlargs`
 
-    # "plugins-hlargs" = {
-    #   url = "github:m-demare/hlargs.nvim";
-    #   flake = false;
-    # };
+    "plugins-fugitive-azure-devops" = {
+      url = "github:cedarbaum/fugitive-azure-devops.vim";
+      flake = false;
+    };
 
     # neovim-nightly-overlay = {
     #   url = "github:nix-community/neovim-nightly-overlay";
@@ -328,6 +328,7 @@
             vim-sleuth
             vim-fugitive
             vim-rhubarb
+            pkgs.neovimPlugins.fugitive-azure-devops
             nvim-surround
           ];
           extra = with pkgs.vimPlugins; [

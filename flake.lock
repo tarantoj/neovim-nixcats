@@ -31,10 +31,27 @@
         "type": "github"
       }
     },
+    "plugins-fugitive-azure-devops": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1697778554,
+        "narHash": "sha256-tNQ76I7JTqY57v4iakUQV1oxtQFjmyIgCWI0sVlY43c=",
+        "owner": "cedarbaum",
+        "repo": "fugitive-azure-devops.vim",
+        "rev": "f5fc65a35a08662f8f3b1df457cc37597004f43a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cedarbaum",
+        "repo": "fugitive-azure-devops.vim",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "nixCats": "nixCats",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "plugins-fugitive-azure-devops": "plugins-fugitive-azure-devops"
       }
     }
   },
