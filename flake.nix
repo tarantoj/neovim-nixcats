@@ -170,6 +170,7 @@
         js = with pkgs; [
           typescript
           typescript-language-server
+          typescript-go
           vtsls
           eslint
           tailwindcss-language-server
