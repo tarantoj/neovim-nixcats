@@ -141,6 +141,7 @@
           nodejs
           imagemagick
           actionlint
+          cspell
         ];
         # these names are arbitrary.
         lint = with pkgs; [

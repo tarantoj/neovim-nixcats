@@ -164,6 +164,7 @@ require('lze').load {
   { 'eslint', lsp = {} },
   { 'html', lsp = {} },
   { 'cssls', lsp = {} },
+  { 'cspell_ls', lsp = {} },
   {
     'jsonls',
     lsp = {
