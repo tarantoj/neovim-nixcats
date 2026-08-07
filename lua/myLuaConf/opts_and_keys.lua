@@ -14,6 +14,7 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
 vim.o.spell = true
 vim.o.spelllang = 'en_au'
+vim.opt.exrc = true
 
 -- Set highlight on search
 vim.opt.hlsearch = true
